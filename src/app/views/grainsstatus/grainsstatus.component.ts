@@ -4,7 +4,7 @@ import { SessionService } from '../../services/session/session.service';
 @Component({
   selector: 'app-grainsstatus',
   templateUrl: './grainsstatus.component.html',
-  styleUrls: ['./grainsstatus.component.scss']
+  styleUrls: ['./grainsstatus.component.css']
 })
 export class GrainsstatusComponent implements OnInit {
 

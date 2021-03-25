@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HubClientBaseService } from '../hubclient/hub-client-base.service';
 import { LoggerService } from '../logger/logger.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { HubConnectionBuilder, IHttpConnectionOptions, LogLevel } from '@microsoft/signalr';
+import { HubConnection, HubConnectionBuilder, HubConnectionState, IHttpConnectionOptions, LogLevel } from '@microsoft/signalr';
 import { MessagePackHubProtocol } from '@microsoft/signalr-protocol-msgpack';
 import { Subject } from 'rxjs';
 import { NgZone } from '@angular/core';
@@ -11,16 +10,16 @@ import { NgZone } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class SessionService extends HubClientBaseService {
+export class SessionService {
   public events: Subject<any> = new Subject();
+  public hubName: string;
+  protected hubConnection: HubConnection;
   
   constructor(
     protected logger: LoggerService,
     private readonly ngZone: NgZone,
     private readonly httpClient: HttpClient
-  ) {
-    super(logger, "negotitate");
-  }
+  ) {}
 
   public connect() {
     const negotiationHeaders = new HttpHeaders()
@@ -41,7 +40,6 @@ export class SessionService extends HubClientBaseService {
             };
           this.hubConnection = new HubConnectionBuilder()
             .withUrl(`${data.url}`, options)
-            .withHubProtocol(new MessagePackHubProtocol())
             .configureLogging(LogLevel.Information)
             .withAutomaticReconnect()
             .build();
@@ -54,5 +52,47 @@ export class SessionService extends HubClientBaseService {
           this.establishConnection(() => {}, e => {}); 
         }); 
     }
+  }
+
+  protected establishConnection(onResolved: { () }, onRejected: { (message?: string) }) {
+    this.hubConnection.start()
+      .then(() => {
+        onResolved();
+      })
+      .catch(() => 
+      {
+         this.logger.log(LogLevel.Error, `Failed to connect to signalR hub: ${this.hubName}`); 
+         onRejected('Failure in starting signalR connection.'); 
+      });
+  }
+
+  protected disconnect() {
+    if(this.isConnected){
+      this.hubConnection.stop();
+    }
+    this.hubConnection = null;
+    this.logger.log(LogLevel.Error, `Hub disconnected: ${this.hubName}`);
+  }
+
+  protected get isConnected(){
+    if(this.hubConnection) {
+      return this.hubConnection.state === HubConnectionState.Connected || this.hubConnection.state === HubConnectionState.Connecting;
+    }
+    return false;
+  }
+
+  protected onClosed() {
+    this.hubConnection.onclose((error) => {
+      this.logger.log(LogLevel.Warning, `Hub ${this.hubName} connection closed. ${error ? error.message : ''}`);
+      this.disconnect();
+    });
+  }
+
+  protected onReconnecting() {
+    this.hubConnection.onreconnecting((error) => {
+      if (this.hubConnection.state === HubConnectionState.Reconnecting) {
+        this.logger.log(LogLevel.Warning, `Attempting to reconnect to the server due to ${error}`);
+      }
+    });
   }
 }
