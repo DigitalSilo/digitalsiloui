@@ -14,19 +14,22 @@ export class SessionService {
   public events: Subject<any> = new Subject();
   public hubName: string;
   protected hubConnection: HubConnection;
-  
+
   constructor(
     protected logger: LoggerService,
     private readonly ngZone: NgZone,
     private readonly httpClient: HttpClient
-  ) {}
+  ) {
+    this.hubName = 'negotiate2';
+    this.connected = false;
+  }
 
   public connect() {
     const negotiationHeaders = new HttpHeaders()
         .append('x-functions-key', environment.signalR.functionKey)
         .append('x-ms-signalr-userid', `${1234567890}`);
-    
-    if(this.hubConnection === null) {
+
+    if (!this.hubConnection === null) {
       const negotitationUrl = `${environment.signalR.watchdogUrl}/${environment.signalR.negotiateEndPoint}`;
       this.httpClient
         .request<any>('GET',negotitationUrl, {responseType:'json', headers: negotiationHeaders})
@@ -34,12 +37,13 @@ export class SessionService {
         .then(data => {
           this.logger.log(LogLevel.Debug, `Negotiation result: ${JSON.stringify(data)}`);
           const options: IHttpConnectionOptions = {
-              logger: null,
               accessTokenFactory: () => data.accessToken,
+              logger: this.logger,
               logMessageContent: true,
             };
           this.hubConnection = new HubConnectionBuilder()
             .withUrl(`${data.url}`, options)
+            .withHubProtocol(new MessagePackHubProtocol())
             .configureLogging(LogLevel.Information)
             .withAutomaticReconnect()
             .build();
@@ -50,7 +54,7 @@ export class SessionService {
           this.onReconnecting();
           this.onClosed();
           this.establishConnection(() => {}, e => {}); 
-        }); 
+        });
     }
   }
 
@@ -61,13 +65,13 @@ export class SessionService {
       })
       .catch(() => 
       {
-         this.logger.log(LogLevel.Error, `Failed to connect to signalR hub: ${this.hubName}`); 
-         onRejected('Failure in starting signalR connection.'); 
+         this.logger.log(LogLevel.Error, `Failed to connect to signalR hub: ${this.hubName}`);
+         onRejected('Failure in starting signalR connection.');
       });
   }
 
   protected disconnect() {
-    if(this.isConnected){
+    if (this.isConnected){
       this.hubConnection.stop();
     }
     this.hubConnection = null;
@@ -75,7 +79,7 @@ export class SessionService {
   }
 
   protected get isConnected(){
-    if(this.hubConnection) {
+    if (this.connected && this.hubConnection !== null) {
       return this.hubConnection.state === HubConnectionState.Connected || this.hubConnection.state === HubConnectionState.Connecting;
     }
     return false;
