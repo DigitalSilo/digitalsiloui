@@ -8,7 +8,7 @@ export const environment = {
   signalR: {
     hubName: 'watchdoghub',
     functionKey: 'mysignalrfunckey',
-    watchdogUrl: 'https://localhost:70701/api',
+    watchdogUrl: 'http://localhost:7071/api',
     negotiateEndPoint: '/negotiate2'
   }
 };

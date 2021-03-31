@@ -24,14 +24,16 @@ export class SessionService {
   }
 
   public connect() {
-    const negotiationHeaders = new HttpHeaders()
-        .append('x-functions-key', environment.signalR.functionKey)
-        .append('x-ms-signalr-userid', `${1234567890}`);
-
-    if (this.hubConnection === null) {
-      const negotitationUrl = `${environment.signalR.watchdogUrl}/${environment.signalR.negotiateEndPoint}`;
+    if (this.hubConnection === undefined) {
+      const negotitationUrl = `${environment.signalR.watchdogUrl}${environment.signalR.negotiateEndPoint}`;
       this.httpClient
-        .request<any>('GET', negotitationUrl, {responseType: 'json', headers: negotiationHeaders})
+        .request<any>('GET', negotitationUrl, {
+          responseType: 'json', 
+          headers: {
+            'x-functions-key': environment.signalR.functionKey,
+            'x-ms-signalr-userid': `${1234567890}`
+          }
+        })
         .toPromise()
         .then((data) => {
           this.logger.log(LogLevel.Debug, `Negotiation result: ${JSON.stringify(data)}`);
@@ -55,6 +57,8 @@ export class SessionService {
           this.establishConnection(() => {}, (e) => {
             this.logger.log(LogLevel.Error, `Failed to connect to signalR hub: ${this.hubName} - Error: ${e}`);
           });
+        }).catch((error) => {
+          this.logger.log(LogLevel.Error, error.message);
         });
     }
   }
