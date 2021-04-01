@@ -28,11 +28,11 @@ export class SessionService {
       const negotitationUrl = `${environment.signalR.watchdogUrl}${environment.signalR.negotiateEndPoint}`;
       this.httpClient
         .request<any>('GET', negotitationUrl, {
-          responseType: 'json', 
           headers: {
             'x-functions-key': environment.signalR.functionKey,
-            'x-ms-signalr-userid': `${1234567890}`
-          }
+            'x-ms-signalr-userid': environment.signalR.clientKey,
+          },
+          responseType: 'json',
         })
         .toPromise()
         .then((data) => {
