@@ -48,10 +48,18 @@ export class SessionService {
             .configureLogging(LogLevel.Information)
             .withAutomaticReconnect()
             .build();
-          this.hubConnection.on('CommandCompleted', (value) => {
-              this.logger.log(LogLevel.Debug, `CommandCompleted: ${value}`);
+          this.hubConnection.on('onNext', (value) => {
+              this.logger.log(LogLevel.Debug, `onNext: ${value}`);
               this.ngZone.run(() => this.events.next(value));
             });
+            this.hubConnection.on('onCompleted', (value) => {
+              this.logger.log(LogLevel.Debug, `onCompleted: ${value}`);
+              this.ngZone.run(() => this.events.next(value));
+            });
+            this.hubConnection.on('onError', (value) => {
+              this.logger.log(LogLevel.Debug, `onError: ${value}`);
+              this.ngZone.run(() => this.events.next(value));
+            });  
           this.onReconnecting();
           this.onClosed();
           this.establishConnection(() => {}, (e) => {
