@@ -1,1 +1,16 @@
-<p>grains-status works!</p>
+<mat-list>
+    <h3 mat-subheader>In-progress grains</h3>
+    <mat-list-item *ngFor="let inProgressGrain of inProgressGrains.items; last as last">
+        <mat-icon mat-list-icon>folder</mat-icon>
+        <h4 mat-line>{{inProgressGrain.uid}}</h4>
+        <p mat-line> {{inProgressGrain}} </p>
+        <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <h3 mat-subheader>Finished grains</h3>
+    <mat-list-item *ngFor="let finishedGrain of finishedGrains.items">
+        <mat-icon mat-list-icon>note</mat-icon>
+        <h4 mat-line>{{finishedGrain.uid}}</h4>
+        <p mat-line> {{finishedGrain}} </p>
+    </mat-list-item>
+</mat-list>
