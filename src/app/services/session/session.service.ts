@@ -4,6 +4,7 @@ import { NgZone } from '@angular/core';
 import { HubConnection, HubConnectionBuilder, HubConnectionState, IHttpConnectionOptions, LogLevel } from '@microsoft/signalr';
 import { MessagePackHubProtocol } from '@microsoft/signalr-protocol-msgpack';
 import { Subject } from 'rxjs';
+import { GrainResponse } from 'src/app/models/grain-response';
 import { environment } from '../../../environments/environment';
 import { LoggerService } from '../logger/logger.service';
 
@@ -11,7 +12,9 @@ import { LoggerService } from '../logger/logger.service';
   providedIn: 'root',
 })
 export class SessionService {
-  public events: Subject<any> = new Subject();
+  public onCompleted: Subject<GrainResponse> = new Subject();
+  public onNext: Subject<GrainResponse> = new Subject();
+  public onError: Subject<GrainResponse> = new Subject();
   public hubName: string;
   protected hubConnection: HubConnection | undefined;
 
@@ -50,15 +53,16 @@ export class SessionService {
             .build();
           this.hubConnection.on('onNext', (value) => {
               this.logger.log(LogLevel.Debug, `onNext: ${value}`);
-              this.ngZone.run(() => this.events.next(value));
+              let grainResponse = this.getGrainResponse(value);
+              this.ngZone.run(() => this.onNext.next(grainResponse));
             });
             this.hubConnection.on('onCompleted', (value) => {
               this.logger.log(LogLevel.Debug, `onCompleted: ${value}`);
-              this.ngZone.run(() => this.events.next(value));
+              this.ngZone.run(() => this.onCompleted.next(JSON.parse(value)));
             });
             this.hubConnection.on('onError', (value) => {
               this.logger.log(LogLevel.Debug, `onError: ${value}`);
-              this.ngZone.run(() => this.events.next(value));
+              this.ngZone.run(() => this.onError.next(JSON.parse(value)));
             });  
           this.onReconnecting();
           this.onClosed();
@@ -109,5 +113,11 @@ export class SessionService {
         this.logger.log(LogLevel.Warning, `Attempting to reconnect to the server due to ${error}`);
       }
     });
+  }
+
+  private getGrainResponse(payload: string) : GrainResponse {
+    let response = JSON.parse(payload);
+    let grainResponse: GrainResponse = Object.assign(new GrainResponse(), response);
+    return grainResponse;
   }
 }
