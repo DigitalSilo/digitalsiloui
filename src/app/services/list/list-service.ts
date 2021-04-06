@@ -26,7 +26,7 @@ export class ListService<T> {
     return this.elements[index];
   }
 
-  public removeAt(condition: (itemToRemove?: T) => boolean): void {
+  public remove(condition: (itemToRemove?: T) => boolean): void {
     for (let index = 0; index < this.length; index++) {
       if(condition(this.get(index))){
         this.elements.splice(index, 1);
