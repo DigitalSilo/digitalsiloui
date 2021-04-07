@@ -1,5 +1,5 @@
 <mat-tab-group mat-align-tabs="center">
-    <mat-tab label="In-progress grains">
+    <mat-tab label="In-progress grains ({{inProgressGrains.length}})">
         <mat-list>
             <h2 mat-subheader>In-progress grains</h2>
             <mat-list-item *ngFor="let inProgressGrain of inProgressGrains.items; last as last">
@@ -13,7 +13,7 @@
             <mat-divider></mat-divider>
         </mat-list>
     </mat-tab>
-    <mat-tab label="Failed grains">
+    <mat-tab label="Failed grains ({{failedGrains.length}})">
         <mat-list>
             <h2 mat-subheader>Failed grains</h2>
             <mat-list-item *ngFor="let failedGrain of failedGrains.items">
@@ -26,7 +26,7 @@
             <mat-divider></mat-divider>
         </mat-list>
     </mat-tab>
-    <mat-tab label="Completed grains">
+    <mat-tab label="Completed grains ({{completedGrains.length}})">
         <mat-list>
             <h2 mat-subheader>Completed grains</h2>
             <mat-list-item *ngFor="let finishedGrain of completedGrains.items">
