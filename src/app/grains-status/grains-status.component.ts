@@ -12,6 +12,7 @@ export class GrainsStatusComponent implements OnInit {
   public inProgressGrains: ListService<GrainResponse>;
   public failedGrains: ListService<GrainResponse>;
   public completedGrains: ListService<GrainResponse>;
+  public totalNumberOfGrains: number = 0;
 
   constructor(
     private readonly sessionService : SessionService
@@ -27,18 +28,25 @@ export class GrainsStatusComponent implements OnInit {
       next: response => {
         this.inProgressGrains.remove((item => item?.subjectGrainUId === response.subjectGrainUId));
         this.completedGrains.add(response);
+        this.calculateTotalNumberOfGrains();
       }
     });
     this.sessionService.onError.subscribe({
       next: response => {
         this.inProgressGrains.remove((item => item?.subjectGrainUId === response.subjectGrainUId));
         this.failedGrains.add(response);
+        this.calculateTotalNumberOfGrains();
       }
     });
     this.sessionService.onNext.subscribe({
       next: response => {
         this.inProgressGrains.add(response);
+        this.calculateTotalNumberOfGrains();
       }
     });
+  }
+
+  calculateTotalNumberOfGrains(): void {
+    this.totalNumberOfGrains = this.completedGrains.length + this.failedGrains.length + this.inProgressGrains.length;
   }
 }

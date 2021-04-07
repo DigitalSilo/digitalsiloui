@@ -1,5 +1,11 @@
+<h3>
+    Total number of processed grains in the mill: {{totalNumberOfGrains}}
+</h3>
 <mat-tab-group mat-align-tabs="center">
-    <mat-tab label="In-progress grains ({{inProgressGrains.length}})">
+    <mat-tab>
+        <ng-template matTabLabel>
+            <span matBadge="{{inProgressGrains.length}}" matBadgeOverlap="false" matBadgeColor="primary">In-progress grains</span>
+        </ng-template>
         <mat-list>
             <h2 mat-subheader>In-progress grains</h2>
             <mat-list-item *ngFor="let inProgressGrain of inProgressGrains.items; last as last">
@@ -13,7 +19,10 @@
             <mat-divider></mat-divider>
         </mat-list>
     </mat-tab>
-    <mat-tab label="Failed grains ({{failedGrains.length}})">
+    <mat-tab>
+        <ng-template matTabLabel>
+            <span matBadge="{{failedGrains.length}}" matBadgeOverlap="false" matBadgeColor="warn">Failed grains</span>
+        </ng-template>
         <mat-list>
             <h2 mat-subheader>Failed grains</h2>
             <mat-list-item *ngFor="let failedGrain of failedGrains.items">
@@ -26,7 +35,10 @@
             <mat-divider></mat-divider>
         </mat-list>
     </mat-tab>
-    <mat-tab label="Completed grains ({{completedGrains.length}})">
+    <mat-tab>
+        <ng-template matTabLabel>
+            <span matBadge="{{completedGrains.length}}" matBadgeOverlap="false" matBadgeColor="accent">Completed grains</span>
+        </ng-template>
         <mat-list>
             <h2 mat-subheader>Completed grains</h2>
             <mat-list-item *ngFor="let finishedGrain of completedGrains.items">
