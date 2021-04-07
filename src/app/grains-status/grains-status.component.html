@@ -1,29 +1,41 @@
-<mat-list>
-    <h2 mat-subheader>In-progress grains</h2>
-    <mat-list-item *ngFor="let inProgressGrain of inProgressGrains.items; last as last">
-        <mat-icon mat-list-icon>autorenew</mat-icon>
-        <h4 mat-line>Grain UId: {{inProgressGrain.subjectGrainUId}}</h4>
-        <p mat-line>Stage: {{inProgressGrain.stage}} </p>
-        <p mat-line>Message: {{inProgressGrain.response?.message}} </p>
-        <p mat-line>Result code: {{inProgressGrain.response.resultCode}} </p>
-        <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
-    </mat-list-item>
-    <mat-divider></mat-divider>
-    <h2 mat-subheader>Failed grains</h2>
-    <mat-list-item *ngFor="let failedGrain of failedGrains.items">
-        <mat-icon mat-list-icon>error</mat-icon>
-        <h4 mat-line>Grain UId: {{failedGrain.subjectGrainUId}}</h4>
-        <p mat-line>Stage: {{failedGrain.stage}} </p>
-        <p mat-line>Message: {{failedGrain.response?.message}} </p>
-        <p mat-line>Result code: {{failedGrain.response.resultCode}} </p>
-    </mat-list-item>
-    <mat-divider></mat-divider>
-    <h2 mat-subheader>Completed grains</h2>
-    <mat-list-item *ngFor="let finishedGrain of completedGrains.items">
-        <mat-icon mat-list-icon>check</mat-icon>
-        <h4 mat-line>Grain UId: {{finishedGrain.subjectGrainUId}}</h4>
-        <p mat-line>Stage: {{finishedGrain.stage}} </p>
-        <p mat-line>Message: {{finishedGrain.response?.message}} </p>
-        <p mat-line>Result code: {{finishedGrain.response.resultCode}} </p>
-    </mat-list-item>
-</mat-list>
+<mat-tab-group mat-align-tabs="center">
+    <mat-tab label="In-progress grains">
+        <mat-list>
+            <h2 mat-subheader>In-progress grains</h2>
+            <mat-list-item *ngFor="let inProgressGrain of inProgressGrains.items; last as last">
+                <mat-icon mat-list-icon>autorenew</mat-icon>
+                <h4 mat-line>Stage: {{inProgressGrain.stage}} </h4>
+                <p mat-line>Grain UId: {{inProgressGrain.subjectGrainUId}}</p>
+                <p mat-line>Message: {{inProgressGrain.response?.message}} </p>
+                <p mat-line>Result code: {{inProgressGrain.response.resultCode}} </p>
+                <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+        </mat-list>
+    </mat-tab>
+    <mat-tab label="Failed grains">
+        <mat-list>
+            <h2 mat-subheader>Failed grains</h2>
+            <mat-list-item *ngFor="let failedGrain of failedGrains.items">
+                <mat-icon mat-list-icon>error</mat-icon>
+                <h4 mat-line>Stage: {{failedGrain.stage}} </h4>
+                <p mat-line>Grain UId: {{failedGrain.subjectGrainUId}}</p>
+                <p mat-line>Message: {{failedGrain.response?.message}} </p>
+                <p mat-line>Result code: {{failedGrain.response.resultCode}} </p>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+        </mat-list>
+    </mat-tab>
+    <mat-tab label="Completed grains">
+        <mat-list>
+            <h2 mat-subheader>Completed grains</h2>
+            <mat-list-item *ngFor="let finishedGrain of completedGrains.items">
+                <mat-icon mat-list-icon>check</mat-icon>
+                <h4 mat-line>Stage: {{finishedGrain.stage}} </h4>
+                <p mat-line>Grain UId: {{finishedGrain.subjectGrainUId}}</p>
+                <p mat-line>Message: {{finishedGrain.response?.message}} </p>
+                <p mat-line>Result code: {{finishedGrain.response.resultCode}} </p>
+            </mat-list-item>
+        </mat-list>
+    </mat-tab>
+</mat-tab-group>
