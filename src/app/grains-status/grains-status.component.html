@@ -1,10 +1,16 @@
-<h3>
-    Total number of processed grains in the mill: {{totalNumberOfGrains}}
-</h3>
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Grains progress in the mill</mat-card-title>
+        <mat-card-subtitle>Total number of processed grains in the mill: {{totalNumberOfGrains}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+    </mat-card-content>
+</mat-card>
 <mat-tab-group mat-align-tabs="center">
     <mat-tab>
         <ng-template matTabLabel>
-            <span matBadge="{{inProgressGrains.length}}" matBadgeOverlap="false" matBadgeColor="primary">In-progress grains</span>
+            <span matBadge="{{inProgressGrains.length}}" matBadgeOverlap="false" matBadgeColor="primary">In-progress
+                grains</span>
         </ng-template>
         <mat-list>
             <h2 mat-subheader>In-progress grains</h2>
@@ -21,7 +27,8 @@
     </mat-tab>
     <mat-tab>
         <ng-template matTabLabel>
-            <span matBadge="{{failedGrains.length}}" matBadgeOverlap="false" matBadgeColor="warn">Failed grains</span>
+            <span matBadge="{{failedGrains.length}}" matBadgeOverlap="false" matBadgeColor="warn">Failed
+                grains</span>
         </ng-template>
         <mat-list>
             <h2 mat-subheader>Failed grains</h2>
@@ -37,7 +44,8 @@
     </mat-tab>
     <mat-tab>
         <ng-template matTabLabel>
-            <span matBadge="{{completedGrains.length}}" matBadgeOverlap="false" matBadgeColor="accent">Completed grains</span>
+            <span matBadge="{{completedGrains.length}}" matBadgeOverlap="false" matBadgeColor="accent">Completed
+                grains</span>
         </ng-template>
         <mat-list>
             <h2 mat-subheader>Completed grains</h2>
