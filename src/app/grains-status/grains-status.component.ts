@@ -13,6 +13,7 @@ export class GrainsStatusComponent implements OnInit {
   public failedGrains: ListService<GrainResponse>;
   public completedGrains: ListService<GrainResponse>;
   public totalNumberOfGrains: number = 0;
+  public startProgressBar: boolean = false;
 
   constructor(
     private readonly sessionService : SessionService
@@ -29,6 +30,7 @@ export class GrainsStatusComponent implements OnInit {
         this.inProgressGrains.remove((item => item?.subjectGrainUId === response.subjectGrainUId));      
         this.completedGrains.add(response);
         this.calculateTotalNumberOfGrains();
+        this.displayOrNotProgressBar();
       }
     });
     this.sessionService.onError.subscribe({
@@ -36,18 +38,24 @@ export class GrainsStatusComponent implements OnInit {
         this.inProgressGrains.remove((item => item?.subjectGrainUId === response.subjectGrainUId));
         this.failedGrains.add(response);
         this.calculateTotalNumberOfGrains();
+        this.displayOrNotProgressBar();
       }
     });
     this.sessionService.onNext.subscribe({
       next: response => {
         this.inProgressGrains.add(response);
         this.calculateTotalNumberOfGrains();
+        this.displayOrNotProgressBar();
       }
     });
   }
 
   calculateTotalNumberOfGrains(): void {
     this.totalNumberOfGrains = this.completedGrains.length + this.failedGrains.length + this.inProgressGrains.length;
+  }
+
+  displayOrNotProgressBar(): void {
+    this.startProgressBar = this.inProgressGrains.length > 0;
   }
 
   onReset(): void {
