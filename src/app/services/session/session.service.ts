@@ -58,11 +58,13 @@ export class SessionService {
             });
             this.hubConnection.on('onCompleted', (value) => {
               this.logger.log(LogLevel.Debug, `onCompleted: ${value}`);
-              this.ngZone.run(() => this.onCompleted.next(JSON.parse(value)));
+              let grainResponse = this.getGrainResponse(value);
+              this.ngZone.run(() => this.onCompleted.next(grainResponse));
             });
             this.hubConnection.on('onError', (value) => {
               this.logger.log(LogLevel.Debug, `onError: ${value}`);
-              this.ngZone.run(() => this.onError.next(JSON.parse(value)));
+              let grainResponse = this.getGrainResponse(value);
+              this.ngZone.run(() => this.onError.next(grainResponse));
             });  
           this.onReconnecting();
           this.onClosed();

@@ -26,7 +26,7 @@ export class GrainsStatusComponent implements OnInit {
     this.sessionService.connect();
     this.sessionService.onCompleted.subscribe({
       next: response => {
-        this.inProgressGrains.remove((item => item?.subjectGrainUId === response.subjectGrainUId));
+        this.inProgressGrains.remove((item => item?.subjectGrainUId === response.subjectGrainUId));      
         this.completedGrains.add(response);
         this.calculateTotalNumberOfGrains();
       }
