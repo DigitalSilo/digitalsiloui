@@ -1,3 +1,18 @@
 .mat-tab-group {
   margin-bottom: 48px;
 }
+
+.grainstatus-h2 {
+  margin: 10px;
+}
+
+.grainstatus-section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+.grainstatus-margin {
+  margin: 0 10px;
+}
