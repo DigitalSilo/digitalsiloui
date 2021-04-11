@@ -1,3 +1,4 @@
+import { ResultCode } from "./ResultCode";
 
 export class Response {
     resultCode: number = 0;

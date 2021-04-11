@@ -24,7 +24,8 @@
                 <mat-icon mat-list-icon>autorenew</mat-icon>
                 <h4 mat-line>Stage: {{inProgressGrain.stage}} </h4>
                 <p mat-line>Grain UId: {{inProgressGrain.subjectGrainUId}}</p>
-                <p mat-line>Message: {{inProgressGrain.response?.message}} </p>
+                <p *ngIf="inProgressGrain.response?.message" mat-line>Message: {{inProgressGrain.response?.message}} </p>
+                <p mat-line>Result: {{inProgressGrain.resultToDisplay}} </p>
                 <p mat-line>Result code: {{inProgressGrain.response.resultCode}} </p>
                 <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
             </mat-list-item>
@@ -42,7 +43,8 @@
                 <mat-icon mat-list-icon>error</mat-icon>
                 <h4 mat-line>Stage: {{failedGrain.stage}} </h4>
                 <p mat-line>Grain UId: {{failedGrain.subjectGrainUId}}</p>
-                <p mat-line>Message: {{failedGrain.response?.message}} </p>
+                <p *ngIf="failedGrain.response?.message" mat-line>Message: {{failedGrain.response?.message}} </p>
+                <p mat-line>Result: {{failedGrain.resultToDisplay}} </p>
                 <p mat-line>Result code: {{failedGrain.response.resultCode}} </p>
                 <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
             </mat-list-item>
@@ -60,7 +62,8 @@
                 <mat-icon mat-list-icon>check</mat-icon>
                 <h4 mat-line>Stage: {{finishedGrain.stage}} </h4>
                 <p mat-line>Grain UId: {{finishedGrain.subjectGrainUId}}</p>
-                <p mat-line>Message: {{finishedGrain.response?.message}} </p>
+                <p *ngIf="finishedGrain.response?.message" mat-line>Message: {{finishedGrain.response?.message}} </p>
+                <p mat-line>Result: {{finishedGrain.resultToDisplay}} </p>
                 <p mat-line>Result code: {{finishedGrain.response.resultCode}} </p>
                 <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
             </mat-list-item>
