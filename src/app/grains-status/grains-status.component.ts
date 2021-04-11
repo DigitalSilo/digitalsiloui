@@ -49,4 +49,11 @@ export class GrainsStatusComponent implements OnInit {
   calculateTotalNumberOfGrains(): void {
     this.totalNumberOfGrains = this.completedGrains.length + this.failedGrains.length + this.inProgressGrains.length;
   }
+
+  onReset(): void {
+    this.inProgressGrains.reset();
+    this.failedGrains.reset();
+    this.completedGrains.reset();
+    this.calculateTotalNumberOfGrains();
+  }
 }
