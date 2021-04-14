@@ -1,5 +1,5 @@
 import { Response } from "./response";
-import { ResultCode } from "./ResultCode";
+import { ResultCode } from "./resultCode";
 
 export class GrainResponse {
     public subjectGrainUId: string = '';
