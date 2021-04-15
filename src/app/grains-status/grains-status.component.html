@@ -6,8 +6,7 @@
     </mat-card-header>
     <mat-card-content>
         This page has been divided into three sections to display grains' progress in the mill consisting of their
-        in-progress,
-        failed and completed statuses.
+        in-progress, failed and completed statuses.
     </mat-card-content>
     <mat-card-actions>
         <button mat-raised-button color="primary" (click)="onReset()">Reset the screen</button>
@@ -20,59 +19,85 @@
 <mat-tab-group mat-align-tabs="center">
     <mat-tab>
         <ng-template matTabLabel>
-            <span matBadge="{{inProgressGrains.length}}" matBadgeOverlap="false" matBadgeColor="primary">In-progress
-                grains</span>
+            <span matBadge="{{inProgressGrains.length}}" matBadgeOverlap="false" matBadgeColor="primary">In-progress grains</span>
         </ng-template>
-        <mat-list>
-            <h2 mat-subheader>In-progress grains</h2>
-            <mat-list-item *ngFor="let inProgressGrain of inProgressGrains.items; last as last">
-                <mat-icon mat-list-icon>autorenew</mat-icon>
-                <h4 mat-line>Stage: {{inProgressGrain.stage}} </h4>
-                <p mat-line>Grain UId: {{inProgressGrain.subjectGrainUId}}</p>
-                <p *ngIf="inProgressGrain.response?.message" mat-line>Message: {{inProgressGrain.response?.message}}
-                </p>
-                <p mat-line>Result: {{inProgressGrain.resultToDisplay}} </p>
-                <p mat-line>Result code: {{inProgressGrain.response.resultCode}} </p>
+        <mat-accordion class="grainstatus-headers-align" multi>
+            <mat-card *ngIf="inProgressGrains.length === 0">Nothing is in progress right now</mat-card>
+            <div *ngFor="let inProgressGrain of inProgressGrains.items; last as last">
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Stage: {{inProgressGrain.stage}}
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            The grain with the UId of {{inProgressGrain.subjectGrainUId}} is still being processed in the mill
+                            <mat-icon>autorenew</mat-icon>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <h4>Stage: {{inProgressGrain.stage}} </h4>
+                    <p>Grain UId: {{inProgressGrain.subjectGrainUId}}</p>
+                    <p *ngIf="inProgressGrain.response?.message" mat-line>Message: {{inProgressGrain.response?.message}}
+                    </p>
+                    <p>Result: {{inProgressGrain.resultToDisplay}} </p>
+                    <p>Result code: {{inProgressGrain.response.resultCode}} </p>
+                </mat-expansion-panel>
                 <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-        </mat-list>
+            </div>
+        </mat-accordion>
     </mat-tab>
     <mat-tab>
         <ng-template matTabLabel>
-            <span matBadge="{{failedGrains.length}}" matBadgeOverlap="false" matBadgeColor="warn">Failed
-                grains</span>
+            <span matBadge="{{failedGrains.length}}" matBadgeOverlap="false" matBadgeColor="warn">Failed grains</span>
         </ng-template>
-        <mat-list>
-            <h2 mat-subheader>Failed grains</h2>
-            <mat-list-item *ngFor="let failedGrain of failedGrains.items; last as last">
-                <mat-icon mat-list-icon>error</mat-icon>
-                <h4 mat-line>Stage: {{failedGrain.stage}} </h4>
-                <p mat-line>Grain UId: {{failedGrain.subjectGrainUId}}</p>
-                <p *ngIf="failedGrain.response?.message" mat-line>Message: {{failedGrain.response?.message}} </p>
-                <p mat-line>Result: {{failedGrain.resultToDisplay}} </p>
-                <p mat-line>Result code: {{failedGrain.response.resultCode}} </p>
+        <mat-accordion class="grainstatus-headers-align" multi>
+            <mat-card *ngIf="failedGrains.length === 0">Nothing has failed so far</mat-card>
+            <div *ngFor="let failedGrain of failedGrains.items; last as last">
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Stage: {{failedGrain.stage}}
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            The grain with the UId of {{failedGrain.subjectGrainUId}} permanently failed in the mill
+                            <mat-icon>error</mat-icon>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <h4>Stage: {{failedGrain.stage}} </h4>
+                    <p>Grain UId: {{failedGrain.subjectGrainUId}}</p>
+                    <p *ngIf="failedGrain.response?.message" mat-line>Message: {{failedGrain.response?.message}}</p>
+                    <p>Result: {{failedGrain.resultToDisplay}} </p>
+                    <p>Result code: {{failedGrain.response.resultCode}} </p>
+                </mat-expansion-panel>
                 <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-        </mat-list>
+            </div>
+        </mat-accordion>
     </mat-tab>
     <mat-tab>
         <ng-template matTabLabel>
-            <span matBadge="{{completedGrains.length}}" matBadgeOverlap="false" matBadgeColor="accent">Completed
-                grains</span>
+            <span matBadge="{{completedGrains.length}}" matBadgeOverlap="false" matBadgeColor="accent">Completed grains</span>
         </ng-template>
-        <mat-list>
-            <h2 mat-subheader>Completed grains</h2>
-            <mat-list-item *ngFor="let finishedGrain of completedGrains.items; last as last">
-                <mat-icon mat-list-icon>check</mat-icon>
-                <h4 mat-line>Stage: {{finishedGrain.stage}} </h4>
-                <p mat-line>Grain UId: {{finishedGrain.subjectGrainUId}}</p>
-                <p *ngIf="finishedGrain.response?.message" mat-line>Message: {{finishedGrain.response?.message}} </p>
-                <p mat-line>Result: {{finishedGrain.resultToDisplay}} </p>
-                <p mat-line>Result code: {{finishedGrain.response.resultCode}} </p>
+        <mat-accordion class="grainstatus-headers-align" multi>
+            <mat-card *ngIf="completedGrains.length === 0">Nothing has completed so far</mat-card>
+            <div *ngFor="let completedGrain of completedGrains.items; last as last">
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Stage: {{completedGrain.stage}}
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            The grain with the UId of {{completedGrain.subjectGrainUId}} completed in the mill
+                            <mat-icon>check</mat-icon>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                    <h4>Stage: {{completedGrain.stage}} </h4>
+                    <p>Grain UId: {{completedGrain.subjectGrainUId}}</p>
+                    <p *ngIf="completedGrain.response?.message" mat-line>Message: {{completedGrain.response?.message}}</p>
+                    <p>Result: {{completedGrain.resultToDisplay}} </p>
+                    <p>Result code: {{completedGrain.response.resultCode}} </p>
+                </mat-expansion-panel>
                 <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
-            </mat-list-item>
-        </mat-list>
+            </div>
+        </mat-accordion>
     </mat-tab>
 </mat-tab-group>
