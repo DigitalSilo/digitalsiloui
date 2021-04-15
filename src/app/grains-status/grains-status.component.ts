@@ -13,6 +13,7 @@ export class GrainsStatusComponent implements OnInit {
   public inProgressGrains: ListService<GrainResponse>;
   public failedGrains: ListService<GrainResponse>;
   public completedGrains: ListService<GrainResponse>;
+  public beganGrains: ListService<GrainResponse>;
   public totalNumberOfGrains: number = 0;
   public startProgressBar: boolean = false;
   private horizontalPosition: MatSnackBarHorizontalPosition = 'start';
@@ -25,33 +26,41 @@ export class GrainsStatusComponent implements OnInit {
     this.inProgressGrains = new ListService<GrainResponse>();
     this.failedGrains = new ListService<GrainResponse>();
     this.completedGrains = new ListService<GrainResponse>();
+    this.beganGrains = new ListService<GrainResponse>();
    }
 
   ngOnInit(): void {
     this.sessionService.connect();
-    this.sessionService.onCompleted.subscribe({
-      next: response => {
-        this.inProgressGrains.remove((item => item?.subjectGrainUId === response.subjectGrainUId));      
-        this.completedGrains.add(response);
-        this.calculateTotalNumberOfGrains();
-        this.displayOrNotProgressBar();
-        this.openProperSnackBar();
+    this.sessionService.onBegin.subscribe({
+      next: response => {        
+        this.beganGrains.add(response);
+        this.activateProgressBarIfApplicable();
       }
-    });
+    });    
     this.sessionService.onError.subscribe({
       next: response => {
         this.inProgressGrains.remove((item => item?.subjectGrainUId === response.subjectGrainUId));
         this.failedGrains.add(response);
         this.calculateTotalNumberOfGrains();
-        this.displayOrNotProgressBar();
+        this.activateProgressBarIfApplicable();
+        this.openProperSnackBar();
+      }
+    });
+    this.sessionService.onCompleted.subscribe({
+      next: response => {
+        this.inProgressGrains.remove((item => item?.subjectGrainUId === response.subjectGrainUId));      
+        this.completedGrains.add(response);
+        this.calculateTotalNumberOfGrains();
+        this.activateProgressBarIfApplicable();
         this.openProperSnackBar();
       }
     });
     this.sessionService.onNext.subscribe({
       next: response => {
+        this.beganGrains.remove((item => item?.subjectGrainUId === response.subjectGrainUId));
         this.inProgressGrains.add(response);
         this.calculateTotalNumberOfGrains();
-        this.displayOrNotProgressBar();
+        this.activateProgressBarIfApplicable();
         this.openProperSnackBar();
       }
     });
@@ -61,7 +70,7 @@ export class GrainsStatusComponent implements OnInit {
     this.totalNumberOfGrains = this.completedGrains.length + this.failedGrains.length + this.inProgressGrains.length;
   }
 
-  displayOrNotProgressBar(): void {
+  activateProgressBarIfApplicable(): void {
     this.startProgressBar = this.inProgressGrains.length > 0;
   }
 
@@ -69,6 +78,7 @@ export class GrainsStatusComponent implements OnInit {
     this.inProgressGrains.reset();
     this.failedGrains.reset();
     this.completedGrains.reset();
+    this.beganGrains.reset();
     this.calculateTotalNumberOfGrains();
   }
 

@@ -15,6 +15,7 @@ export class SessionService {
   public onCompleted: Subject<GrainResponse> = new Subject();
   public onNext: Subject<GrainResponse> = new Subject();
   public onError: Subject<GrainResponse> = new Subject();
+  public onBegin: Subject<GrainResponse> = new Subject();
   public hubName: string;
   protected hubConnection: HubConnection | undefined;
 
@@ -51,17 +52,22 @@ export class SessionService {
             .configureLogging(LogLevel.Information)
             .withAutomaticReconnect()
             .build();
+          this.hubConnection.on('onBegin', (value) => {
+              this.logger.log(LogLevel.Debug, `onBegin: ${value}`);
+              let grainResponse = this.getGrainResponse(value);
+              this.ngZone.run(() => this.onBegin.next(grainResponse));
+            });
           this.hubConnection.on('onNext', (value) => {
               this.logger.log(LogLevel.Debug, `onNext: ${value}`);
               let grainResponse = this.getGrainResponse(value);
               this.ngZone.run(() => this.onNext.next(grainResponse));
             });
-            this.hubConnection.on('onCompleted', (value) => {
+          this.hubConnection.on('onCompleted', (value) => {
               this.logger.log(LogLevel.Debug, `onCompleted: ${value}`);
               let grainResponse = this.getGrainResponse(value);
               this.ngZone.run(() => this.onCompleted.next(grainResponse));
             });
-            this.hubConnection.on('onError', (value) => {
+          this.hubConnection.on('onError', (value) => {
               this.logger.log(LogLevel.Debug, `onError: ${value}`);
               let grainResponse = this.getGrainResponse(value);
               this.ngZone.run(() => this.onError.next(grainResponse));
