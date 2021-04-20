@@ -16,6 +16,10 @@ export class GrainsStatusComponent implements OnInit {
   public beganGrains: ListService<GrainResponse>;
   public totalNumberOfGrains: number = 0;
   public startProgressBar: boolean = false;
+  public begunGrainsBadge: string = '0';
+  public inProgressGrainsBadge: string = '0';
+  public failedGrainsBadge: string = '0';
+  public completedGrainsBadge: string = '0';
   private horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   private verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
@@ -43,6 +47,7 @@ export class GrainsStatusComponent implements OnInit {
         this.failedGrains.add(response);
         this.calculateTotalNumberOfGrains();
         this.activateProgressBarIfApplicable();
+        this.populateBadges();
         this.openProperSnackBar();
       }
     });
@@ -52,6 +57,7 @@ export class GrainsStatusComponent implements OnInit {
         this.completedGrains.add(response);
         this.calculateTotalNumberOfGrains();
         this.activateProgressBarIfApplicable();
+        this.populateBadges();
         this.openProperSnackBar();
       }
     });
@@ -61,6 +67,7 @@ export class GrainsStatusComponent implements OnInit {
         this.inProgressGrains.add(response);
         this.calculateTotalNumberOfGrains();
         this.activateProgressBarIfApplicable();
+        this.populateBadges();
         this.openProperSnackBar();
       }
     });
@@ -80,6 +87,7 @@ export class GrainsStatusComponent implements OnInit {
     this.completedGrains.reset();
     this.beganGrains.reset();
     this.calculateTotalNumberOfGrains();
+    this.populateBadges();
   }
 
   openProperSnackBar(): void{
@@ -98,5 +106,31 @@ export class GrainsStatusComponent implements OnInit {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
     });
+  }
+
+  populateBadges(){
+    if(this.beganGrains.length < 100){
+      this.begunGrainsBadge = this.beganGrains.length.toString();
+    } else {
+      this.begunGrainsBadge = '99+';
+    }
+
+    if(this.inProgressGrains.length < 100){
+      this.inProgressGrainsBadge = this.inProgressGrains.length.toString();
+    } else {
+      this.inProgressGrainsBadge = '99+';
+    }
+
+    if(this.failedGrains.length < 100){
+      this.failedGrainsBadge = this.failedGrains.length.toString();
+    } else {
+      this.failedGrainsBadge = '99+';
+    }
+
+    if(this.completedGrains.length < 100){
+      this.completedGrainsBadge = this.completedGrains.length.toString();
+    } else {
+      this.completedGrainsBadge = '99+';
+    }
   }
 }
