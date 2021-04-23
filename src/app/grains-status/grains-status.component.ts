@@ -13,7 +13,7 @@ export class GrainsStatusComponent implements OnInit {
   public inProgressGrains: ListService<GrainResponse>;
   public failedGrains: ListService<GrainResponse>;
   public completedGrains: ListService<GrainResponse>;
-  public beganGrains: ListService<GrainResponse>;
+  public begunGrains: ListService<GrainResponse>;
   public totalNumberOfGrains: number = 0;
   public startProgressBar: boolean = false;
   public begunGrainsBadge: string = '0';
@@ -30,14 +30,14 @@ export class GrainsStatusComponent implements OnInit {
     this.inProgressGrains = new ListService<GrainResponse>();
     this.failedGrains = new ListService<GrainResponse>();
     this.completedGrains = new ListService<GrainResponse>();
-    this.beganGrains = new ListService<GrainResponse>();
+    this.begunGrains = new ListService<GrainResponse>();
    }
 
   ngOnInit(): void {
     this.sessionService.connect();
     this.sessionService.onBegin.subscribe({
       next: response => {        
-        this.beganGrains.add(response);
+        this.begunGrains.add(response);
         this.activateProgressBarIfApplicable();
       }
     });    
@@ -63,7 +63,7 @@ export class GrainsStatusComponent implements OnInit {
     });
     this.sessionService.onNext.subscribe({
       next: response => {
-        this.beganGrains.remove((item => item?.subjectGrainUId === response.subjectGrainUId));
+        this.begunGrains.remove((item => item?.subjectGrainUId === response.subjectGrainUId));
         this.inProgressGrains.add(response);
         this.calculateTotalNumberOfGrains();
         this.activateProgressBarIfApplicable();
@@ -85,7 +85,7 @@ export class GrainsStatusComponent implements OnInit {
     this.inProgressGrains.reset();
     this.failedGrains.reset();
     this.completedGrains.reset();
-    this.beganGrains.reset();
+    this.begunGrains.reset();
     this.calculateTotalNumberOfGrains();
     this.populateBadges();
   }
@@ -109,8 +109,8 @@ export class GrainsStatusComponent implements OnInit {
   }
 
   populateBadges(){
-    if(this.beganGrains.length < 100){
-      this.begunGrainsBadge = this.beganGrains.length.toString();
+    if(this.begunGrains.length < 100){
+      this.begunGrainsBadge = this.begunGrains.length.toString();
     } else {
       this.begunGrainsBadge = '99+';
     }
