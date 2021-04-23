@@ -1,7 +1,8 @@
 <mat-card>
     <mat-card-header>
         <mat-card-title>Grains' status in the mill</mat-card-title>
-        <mat-card-subtitle>The total number of grains being processed in the mill: {{totalNumberOfGrains}}
+        <mat-card-subtitle>
+            An overview of grains' granular progress in the mill
         </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
@@ -13,7 +14,10 @@
     </mat-card-actions>
 </mat-card>
 <mat-divider></mat-divider>
-<section class="grainstatus-section">
+<section class="grainstatus-stat">
+    <h3 class="grainstatus-h3">The total number of grains being processed in the mill: {{totalNumberOfGrains}}</h3>
+</section>
+<section class="grainstatus-section">    
     <mat-progress-bar mode="indeterminate" *ngIf="startProgressBar"></mat-progress-bar>
 </section>
 <mat-tab-group mat-align-tabs="center">
@@ -27,20 +31,19 @@
             <div *ngFor="let beganGrain of beganGrains.items; last as last">
                 <mat-expansion-panel>
                     <mat-expansion-panel-header>
-                        <mat-panel-title>
-                            Stage: {{beganGrain.stage}}
+                        <mat-panel-title>                            
+                            Grain: {{beganGrain.stage}}
                         </mat-panel-title>
                         <mat-panel-description>
                             The grain with the UId of {{beganGrain.subjectGrainUId}} has been seeded
                             <mat-icon>add_task</mat-icon>
                         </mat-panel-description>
                     </mat-expansion-panel-header>
-                    <h4>Stage: {{beganGrain.stage}} </h4>
                     <p>Grain UId: {{beganGrain.subjectGrainUId}}</p>
                     <p *ngIf="beganGrain.response?.message" mat-line>Message: {{beganGrain.response?.message}}
                     </p>
-                    <p>Result: {{beganGrain.resultToDisplay}} </p>
-                    <p>Result code: {{beganGrain.response.resultCode}} </p>
+                    <p>Result: {{beganGrain.resultToDisplay}}, code = {{beganGrain.response.resultCode}} </p>
+                    <p>Response generated time: {{beganGrain.response.responseTimeUTC | date:'full':'GMT'}}</p>
                 </mat-expansion-panel>
                 <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
             </div>
@@ -58,7 +61,7 @@
                 <mat-expansion-panel>
                     <mat-expansion-panel-header>
                         <mat-panel-title>
-                            Stage: {{inProgressGrain.stage}}
+                            Grain: {{inProgressGrain.stage}}
                         </mat-panel-title>
                         <mat-panel-description>
                             The grain with the UId of {{inProgressGrain.subjectGrainUId}} is still being processed in
@@ -66,12 +69,11 @@
                             <mat-icon>pending</mat-icon>
                         </mat-panel-description>
                     </mat-expansion-panel-header>
-                    <h4>Stage: {{inProgressGrain.stage}} </h4>
                     <p>Grain UId: {{inProgressGrain.subjectGrainUId}}</p>
                     <p *ngIf="inProgressGrain.response?.message" mat-line>Message: {{inProgressGrain.response?.message}}
                     </p>
-                    <p>Result: {{inProgressGrain.resultToDisplay}} </p>
-                    <p>Result code: {{inProgressGrain.response.resultCode}} </p>
+                    <p>Result: {{inProgressGrain.resultToDisplay}}, code = {{inProgressGrain.response.resultCode}} </p>
+                    <p>Response generated time: {{inProgressGrain.response.responseTimeUTC | date:'full':'GMT'}}</p>
                 </mat-expansion-panel>
                 <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
             </div>
@@ -88,18 +90,17 @@
                 <mat-expansion-panel>
                     <mat-expansion-panel-header>
                         <mat-panel-title>
-                            Stage: {{failedGrain.stage}}
+                            Grain: {{failedGrain.stage}}
                         </mat-panel-title>
                         <mat-panel-description>
                             The grain with the UId of {{failedGrain.subjectGrainUId}} permanently failed in the mill
                             <mat-icon>error</mat-icon>
                         </mat-panel-description>
                     </mat-expansion-panel-header>
-                    <h4>Stage: {{failedGrain.stage}} </h4>
                     <p>Grain UId: {{failedGrain.subjectGrainUId}}</p>
                     <p *ngIf="failedGrain.response?.message" mat-line>Message: {{failedGrain.response?.message}}</p>
-                    <p>Result: {{failedGrain.resultToDisplay}} </p>
-                    <p>Result code: {{failedGrain.response.resultCode}} </p>
+                    <p>Result: {{failedGrain.resultToDisplay}}, code = {{failedGrain.response.resultCode}} </p>
+                    <p>Response generated time: {{failedGrain.response.responseTimeUTC | date:'full':'GMT'}}</p>
                 </mat-expansion-panel>
                 <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
             </div>
@@ -107,8 +108,7 @@
     </mat-tab>
     <mat-tab>
         <ng-template matTabLabel>
-            <span matBadge="{{completedGrainsBadge}}" matBadgeOverlap="false" matBadgeColor="accent" matBadgeSize="medium">Completed
-                grains</span>
+            <span matBadge="{{completedGrainsBadge}}" matBadgeOverlap="false" matBadgeColor="accent" matBadgeSize="medium">Completed grains</span>
         </ng-template>
         <mat-accordion class="grainstatus-headers-align" multi>
             <mat-card *ngIf="completedGrains.length === 0">Nothing has completed so far</mat-card>
@@ -117,20 +117,18 @@
                 <mat-expansion-panel>
                     <mat-expansion-panel-header>
                         <mat-panel-title>
-                            Stage: {{completedGrain.stage}}
+                            Grain: {{completedGrain.stage}}
                         </mat-panel-title>
                         <mat-panel-description>
                             The grain with the UId of {{completedGrain.subjectGrainUId}} completed in the mill
                             <mat-icon>thumb_up</mat-icon>
                         </mat-panel-description>
                     </mat-expansion-panel-header>
-
-                    <h4>Stage: {{completedGrain.stage}} </h4>
                     <p>Grain UId: {{completedGrain.subjectGrainUId}}</p>
-                    <p *ngIf="completedGrain.response?.message" mat-line>Message: {{completedGrain.response?.message}}
-                    </p>
-                    <p>Result: {{completedGrain.resultToDisplay}} </p>
-                    <p>Result code: {{completedGrain.response.resultCode}} </p>
+                    <p *ngIf="completedGrain.response?.message" mat-line>Message: {{completedGrain.response?.message}} </p>
+                    <p>Result: {{completedGrain.resultToDisplay}}, code = {{completedGrain.response.resultCode}} </p>
+                    <p>Response generated time: {{completedGrain.response.responseTimeUTC | date:'full':'GMT'}}</p>
+                    <p>System response: {{completedGrain.response.isSystemResponse}}</p>
                 </mat-expansion-panel>
                 <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
             </div>
