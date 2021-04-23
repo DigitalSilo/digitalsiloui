@@ -6,11 +6,22 @@
   margin: 10px;
 }
 
+.grainstatus-h3 {
+  margin: 10px;
+}
+
 .grainstatus-section {
   display: flex;
   align-content: center;
   align-items: center;
-  height: 60px;
+  height: 50px;
+}
+
+.grainstatus-stat {
+  display: flex;
+  align-content: left;
+  align-items: center;
+  height: 40px;
 }
 
 .grainstatus-margin {
