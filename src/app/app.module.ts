@@ -7,6 +7,7 @@ import { GrainsStatusComponent } from './grains-status/grains-status.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import {MatDialogModule} from '@angular/material/dialog';
 import { MatExpansionModule} from '@angular/material/expansion';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
@@ -15,10 +16,12 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HttpClientModule } from '@angular/common/http';
+import { ResetScreenDialogComponent } from './reset-screen-dialog/reset-screen-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
-    GrainsStatusComponent
+    GrainsStatusComponent,
+    ResetScreenDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -28,6 +31,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatBadgeModule,
     MatButtonModule,
     MatCardModule,
+    MatDialogModule,
     MatExpansionModule,
     MatToolbarModule,
     MatListModule,

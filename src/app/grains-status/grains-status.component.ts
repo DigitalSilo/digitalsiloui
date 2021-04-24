@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar,  MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { GrainResponse } from '../models/grain-response';
+import { ResetScreenDialogComponent } from '../reset-screen-dialog/reset-screen-dialog.component';
 import { ListService } from '../services/list/list-service';
 import { SessionService } from '../services/session/session.service';
 
@@ -25,7 +27,8 @@ export class GrainsStatusComponent implements OnInit {
 
   constructor(
     private readonly sessionService : SessionService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog,
   ) {
     this.inProgressGrains = new ListService<GrainResponse>();
     this.failedGrains = new ListService<GrainResponse>();
@@ -81,7 +84,7 @@ export class GrainsStatusComponent implements OnInit {
     this.startProgressBar = this.inProgressGrains.length > 0;
   }
 
-  onReset(): void {
+  reset(): void {
     this.inProgressGrains.reset();
     this.failedGrains.reset();
     this.completedGrains.reset();
@@ -132,5 +135,14 @@ export class GrainsStatusComponent implements OnInit {
     } else {
       this.completedGrainsBadge = '99+';
     }
+  }
+
+  onOpenReset(){
+    const reference = this.dialog.open(ResetScreenDialogComponent);
+    reference.afterClosed().subscribe(result => {
+      if(result === true){
+        this.reset();
+      }
+    });
   }
 }
