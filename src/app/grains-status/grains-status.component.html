@@ -54,11 +54,16 @@
                     <mat-divider></mat-divider>
                     <mat-card>
                         <mat-card-header>
-                            <h3>Full response model</h3>
+                            <h3>Full response model
+                                <button mat-icon-button [cdkCopyToClipboard]="begunGrain.entirePayload">
+                                    <mat-icon>content_copy</mat-icon>
+                                </button>
+                            </h3>
                         </mat-card-header>
                         <mat-card-content>
-                            <mat-divider></mat-divider>
-                            {{begunGrain.entirePayload}}
+                            <textarea matInput cols="180" rows="20" disabled
+                                [value]="begunGrain.entirePayload"></textarea>
+
                         </mat-card-content>
                     </mat-card>
                 </mat-expansion-panel>
@@ -101,11 +106,16 @@
                     <mat-divider></mat-divider>
                     <mat-card>
                         <mat-card-header>
-                            <h3>Full response model</h3>
+                            <h3>Full response model
+                                <button mat-icon-button [cdkCopyToClipboard]="inProgressGrain.entirePayload">
+                                    <mat-icon>content_copy</mat-icon>
+                                </button>
+                            </h3>
                         </mat-card-header>
                         <mat-card-content>
-                            <mat-divider></mat-divider>
-                            {{inProgressGrain.entirePayload}}
+                            <textarea matInput cols="180" rows="20" disabled
+                                [value]="inProgressGrain.entirePayload"></textarea>
+
                         </mat-card-content>
                     </mat-card>
                 </mat-expansion-panel>
@@ -144,11 +154,16 @@
                     <mat-divider></mat-divider>
                     <mat-card>
                         <mat-card-header>
-                            <h3>Full response model</h3>
+                            <h3>Full response model
+                                <button mat-icon-button [cdkCopyToClipboard]="failedGrain.entirePayload">
+                                    <mat-icon>content_copy</mat-icon>
+                                </button>
+                            </h3>
                         </mat-card-header>
                         <mat-card-content>
-                            <mat-divider></mat-divider>
-                            {{failedGrain.entirePayload}}
+                            <textarea matInput cols="180" rows="20" disabled
+                                [value]="failedGrain.entirePayload"></textarea>
+
                         </mat-card-content>
                     </mat-card>
                 </mat-expansion-panel>
@@ -183,14 +198,18 @@
                     <p>Result: {{completedGrain.resultToDisplay}}, code = {{completedGrain.response.resultCode}} </p>
                     <p>Response generated time: {{completedGrain.response.responseTimeUTC | date:'full':'GMT'}}</p>
                     <p>System response: {{completedGrain.response.isSystemResponse}}</p>
-                    <mat-divider></mat-divider>
                     <mat-card>
                         <mat-card-header>
-                            <h3>Full response model</h3>
+                            <h3>Full response model
+                                <button mat-icon-button [cdkCopyToClipboard]="completedGrain.entirePayload">
+                                    <mat-icon>content_copy</mat-icon>
+                                </button>
+                            </h3>
                         </mat-card-header>
                         <mat-card-content>
-                            <mat-divider></mat-divider>
-                            {{completedGrain.entirePayload}}
+                            <textarea matInput cols="180" rows="20" disabled
+                                [value]="completedGrain.entirePayload"></textarea>
+
                         </mat-card-content>
                     </mat-card>
                 </mat-expansion-panel>
