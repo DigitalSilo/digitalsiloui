@@ -1,11 +1,12 @@
-import { Response } from "./response";
-import { ResultCode } from "./resultCode";
+import { Response } from './response';
+import { ResultCode } from './resultCode';
 
 export class GrainResponse {
-    public subjectGrainUId: string = '';
-    public stage: string = '';
+    public subjectGrainUId = '';
+    public stage = '';
     public response: Response = new Response();
-    public resultToDisplay: string = '';
+    public entirePayload = '';
+    public resultToDisplay = '';
 
     public constructor() {
         this.resultToDisplay = ResultCode[this.response.resultCode];

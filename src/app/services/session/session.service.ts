@@ -27,7 +27,7 @@ export class SessionService {
     this.hubName = 'negotiate2';
   }
 
-  public connect() {
+  public connect(): void {
     if (this.hubConnection === undefined) {
       const negotitationUrl = `${environment.signalR.watchdogUrl}${environment.signalR.negotiateEndPoint}`;
       this.httpClient
@@ -54,24 +54,24 @@ export class SessionService {
             .build();
           this.hubConnection.on('onBegin', (value) => {
               this.logger.log(LogLevel.Debug, `onBegin: ${value}`);
-              let grainResponse = this.getGrainResponse(value);
+              const grainResponse = this.getGrainResponse(value);
               this.ngZone.run(() => this.onBegin.next(grainResponse));
             });
           this.hubConnection.on('onNext', (value) => {
               this.logger.log(LogLevel.Debug, `onNext: ${value}`);
-              let grainResponse = this.getGrainResponse(value);
+              const grainResponse = this.getGrainResponse(value);
               this.ngZone.run(() => this.onNext.next(grainResponse));
             });
           this.hubConnection.on('onCompleted', (value) => {
               this.logger.log(LogLevel.Debug, `onCompleted: ${value}`);
-              let grainResponse = this.getGrainResponse(value);
+              const grainResponse = this.getGrainResponse(value);
               this.ngZone.run(() => this.onCompleted.next(grainResponse));
             });
           this.hubConnection.on('onError', (value) => {
               this.logger.log(LogLevel.Debug, `onError: ${value}`);
-              let grainResponse = this.getGrainResponse(value);
+              const grainResponse = this.getGrainResponse(value);
               this.ngZone.run(() => this.onError.next(grainResponse));
-            });  
+            });
           this.onReconnecting();
           this.onClosed();
           this.establishConnection(() => {}, (e) => {
@@ -83,7 +83,7 @@ export class SessionService {
     }
   }
 
-  protected establishConnection(onResolved: () => void, onRejected: (message?: string) => void) {
+  protected establishConnection(onResolved: () => void, onRejected: (message?: string) => void): void {
     this.hubConnection?.start()
       .then(() => {
         onResolved();
@@ -93,7 +93,7 @@ export class SessionService {
       });
   }
 
-  protected disconnect() {
+  protected disconnect(): void {
     if (this.isConnected){
       this.hubConnection?.stop();
     }
@@ -101,21 +101,21 @@ export class SessionService {
     this.logger.log(LogLevel.Error, `Hub disconnected: ${this.hubName}`);
   }
 
-  protected get isConnected() {
+  protected get isConnected(): boolean {
     if (this.hubConnection !== undefined) {
       return this.hubConnection?.state === HubConnectionState.Connected || this.hubConnection?.state === HubConnectionState.Connecting;
     }
     return false;
   }
 
-  protected onClosed() {
+  protected onClosed(): void {
     this.hubConnection?.onclose((error) => {
       this.logger.log(LogLevel.Warning, `Hub ${this.hubName} connection closed. ${error ? error.message : ''}`);
       this.disconnect();
     });
   }
 
-  protected onReconnecting() {
+  protected onReconnecting(): void {
     this.hubConnection?.onreconnecting((error) => {
       if (this.hubConnection?.state === HubConnectionState.Reconnecting) {
         this.logger.log(LogLevel.Warning, `Attempting to reconnect to the server due to ${error}`);
@@ -123,9 +123,10 @@ export class SessionService {
     });
   }
 
-  private getGrainResponse(payload: string) : GrainResponse {
-    let response = JSON.parse(payload);
-    let grainResponse: GrainResponse = Object.assign(new GrainResponse(), response);
+  private getGrainResponse(payload: string): GrainResponse {
+    const response = JSON.parse(payload);
+    const grainResponse: GrainResponse = Object.assign(new GrainResponse(), response);
+    grainResponse.entirePayload = payload;
     return grainResponse;
   }
 }
