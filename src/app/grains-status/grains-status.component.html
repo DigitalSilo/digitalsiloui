@@ -11,6 +11,7 @@
     </mat-card-content>
     <mat-card-actions>
         <button mat-raised-button color="primary" (click)="onOpenReset()">Reset the screen</button>
+        <button mat-raised-button color="primary" (click)="onOpenSystemInfo()">System Info</button>
     </mat-card-actions>
 </mat-card>
 <mat-divider></mat-divider>
@@ -33,9 +34,6 @@
                 <mat-expansion-panel>
                     <mat-expansion-panel-header>
                         <mat-panel-title>
-                            <span *ngIf="begunGrain.response.isSystemResponse">
-                                <mat-icon>cloud</mat-icon>
-                            </span>
                             <h4>
                                 Grain: {{begunGrain.stage}}
                             </h4>
