@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar,  MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { GrainResponse } from '../models/grain-response';
+import { ResetScreenDialogComponent } from '../reset-screen-dialog/reset-screen-dialog.component';
 import { ListService } from '../services/list/list-service';
 import { SessionService } from '../services/session/session.service';
+import { SystemInfoViewComponent } from '../system-info-view/system-info-view.component';
 
 @Component({
   selector: 'app-grains-status',
@@ -14,18 +18,20 @@ export class GrainsStatusComponent implements OnInit {
   public failedGrains: ListService<GrainResponse>;
   public completedGrains: ListService<GrainResponse>;
   public begunGrains: ListService<GrainResponse>;
-  public totalNumberOfGrains: number = 0;
-  public startProgressBar: boolean = false;
-  public begunGrainsBadge: string = '0';
-  public inProgressGrainsBadge: string = '0';
-  public failedGrainsBadge: string = '0';
-  public completedGrainsBadge: string = '0';
+  public totalNumberOfGrains = 0;
+  public startProgressBar = false;
+  public begunGrainsBadge = '0';
+  public inProgressGrainsBadge = '0';
+  public failedGrainsBadge = '0';
+  public completedGrainsBadge = '0';
   private horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   private verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   constructor(
     private readonly sessionService : SessionService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private listResetDialog: MatDialog,
+    private systemInfo: MatBottomSheet
   ) {
     this.inProgressGrains = new ListService<GrainResponse>();
     this.failedGrains = new ListService<GrainResponse>();
@@ -36,11 +42,11 @@ export class GrainsStatusComponent implements OnInit {
   ngOnInit(): void {
     this.sessionService.connect();
     this.sessionService.onBegin.subscribe({
-      next: response => {        
+      next: response => {
         this.begunGrains.add(response);
         this.activateProgressBarIfApplicable();
       }
-    });    
+    });
     this.sessionService.onError.subscribe({
       next: response => {
         this.inProgressGrains.remove((item => item?.subjectGrainUId === response.subjectGrainUId));
@@ -53,7 +59,7 @@ export class GrainsStatusComponent implements OnInit {
     });
     this.sessionService.onCompleted.subscribe({
       next: response => {
-        this.inProgressGrains.remove((item => item?.subjectGrainUId === response.subjectGrainUId));      
+        this.inProgressGrains.remove((item => item?.subjectGrainUId === response.subjectGrainUId));
         this.completedGrains.add(response);
         this.calculateTotalNumberOfGrains();
         this.activateProgressBarIfApplicable();
@@ -81,7 +87,7 @@ export class GrainsStatusComponent implements OnInit {
     this.startProgressBar = this.inProgressGrains.length > 0;
   }
 
-  onReset(): void {
+  reset(): void {
     this.inProgressGrains.reset();
     this.failedGrains.reset();
     this.completedGrains.reset();
@@ -108,29 +114,42 @@ export class GrainsStatusComponent implements OnInit {
     });
   }
 
-  populateBadges(){
-    if(this.begunGrains.length < 100){
+  populateBadges(): void{
+    if (this.begunGrains.length < 100){
       this.begunGrainsBadge = this.begunGrains.length.toString();
     } else {
       this.begunGrainsBadge = '99+';
     }
 
-    if(this.inProgressGrains.length < 100){
+    if (this.inProgressGrains.length < 100){
       this.inProgressGrainsBadge = this.inProgressGrains.length.toString();
     } else {
       this.inProgressGrainsBadge = '99+';
     }
 
-    if(this.failedGrains.length < 100){
+    if (this.failedGrains.length < 100){
       this.failedGrainsBadge = this.failedGrains.length.toString();
     } else {
       this.failedGrainsBadge = '99+';
     }
 
-    if(this.completedGrains.length < 100){
+    if (this.completedGrains.length < 100){
       this.completedGrainsBadge = this.completedGrains.length.toString();
     } else {
       this.completedGrainsBadge = '99+';
     }
+  }
+
+  onOpenReset(): void{
+    const reference = this.listResetDialog.open(ResetScreenDialogComponent);
+    reference.afterClosed().subscribe(result => {
+      if (result === true){
+        this.reset();
+      }
+    });
+  }
+
+  onOpenSystemInfo(): void{
+    this.systemInfo.open(SystemInfoViewComponent);
   }
 }

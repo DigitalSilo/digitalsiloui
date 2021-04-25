@@ -6,11 +6,10 @@
         </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-        This page has been divided into three sections to display grains' progress in the mill consisting of their
-        in-progress, failed and completed statuses.
     </mat-card-content>
     <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="onReset()">Reset the screen</button>
+        <button mat-button color="primary" (click)="onOpenReset()">Reset the screen</button>
+        <button mat-button color="primary" (click)="onOpenSystemInfo()">System Info</button>
     </mat-card-actions>
 </mat-card>
 <mat-divider></mat-divider>
@@ -33,16 +32,13 @@
                 <mat-expansion-panel>
                     <mat-expansion-panel-header>
                         <mat-panel-title>
-                            <span *ngIf="begunGrain.response.isSystemResponse">
-                                <mat-icon>cloud</mat-icon>
-                            </span>
                             <h4>
                                 Grain: {{begunGrain.stage}}
                             </h4>
                         </mat-panel-title>
                         <mat-panel-description>
                             The grain with the UId of {{begunGrain.subjectGrainUId}} has been seeded
-                            <mat-icon *ngIf="begunGrain.response.isSystemResponse">cloud</mat-icon>
+                            <mat-icon *ngIf="begunGrain.response.isSystemResponse">mediation</mat-icon>
                             <mat-icon *ngIf="!begunGrain.response.isSystemResponse">developer_mode</mat-icon>
 
                         </mat-panel-description>
@@ -52,6 +48,22 @@
                     </p>
                     <p>Result: {{begunGrain.resultToDisplay}}, code = {{begunGrain.response.resultCode}} </p>
                     <p>Response generated time: {{begunGrain.response.responseTimeUTC | date:'full':'GMT'}}</p>
+                    <p>System response: {{begunGrain.response.isSystemResponse}}</p>
+                    <mat-divider></mat-divider>
+                    <mat-card>
+                        <mat-card-header>
+                            <h3>Full response model
+                                <button mat-icon-button [cdkCopyToClipboard]="begunGrain.entirePayload">
+                                    <mat-icon>content_copy</mat-icon>
+                                </button>
+                            </h3>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <textarea matInput cols="180" rows="20" disabled
+                                [value]="begunGrain.entirePayload"></textarea>
+
+                        </mat-card-content>
+                    </mat-card>
                 </mat-expansion-panel>
                 <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
             </div>
@@ -72,16 +84,15 @@
                     <mat-expansion-panel-header>
                         <mat-panel-title>
                             <span *ngIf="inProgressGrain.response.isSystemResponse">
-                                <mat-icon>cloud</mat-icon>
+                                <mat-icon>mediation</mat-icon>
                             </span>
                             Grain: {{inProgressGrain.stage}}
                         </mat-panel-title>
                         <mat-panel-description>
                             The grain with the UId of {{inProgressGrain.subjectGrainUId}} is still being processed in
                             the mill
-                            <mat-icon *ngIf="inProgressGrain.response.isSystemResponse">cloud</mat-icon>
+                            <mat-icon *ngIf="inProgressGrain.response.isSystemResponse">mediation</mat-icon>
                             <mat-icon *ngIf="!inProgressGrain.response.isSystemResponse">developer_mode</mat-icon>
-
                         </mat-panel-description>
                     </mat-expansion-panel-header>
                     <p>Grain UId: {{inProgressGrain.subjectGrainUId}}</p>
@@ -89,6 +100,22 @@
                     </p>
                     <p>Result: {{inProgressGrain.resultToDisplay}}, code = {{inProgressGrain.response.resultCode}} </p>
                     <p>Response generated time: {{inProgressGrain.response.responseTimeUTC | date:'full':'GMT'}}</p>
+                    <p>System response: {{inProgressGrain.response.isSystemResponse}}</p>
+                    <mat-divider></mat-divider>
+                    <mat-card>
+                        <mat-card-header>
+                            <h3>Full response model
+                                <button mat-icon-button [cdkCopyToClipboard]="inProgressGrain.entirePayload">
+                                    <mat-icon>content_copy</mat-icon>
+                                </button>
+                            </h3>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <textarea matInput cols="180" rows="20" disabled
+                                [value]="inProgressGrain.entirePayload"></textarea>
+
+                        </mat-card-content>
+                    </mat-card>
                 </mat-expansion-panel>
                 <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
             </div>
@@ -107,21 +134,36 @@
                     <mat-expansion-panel-header>
                         <mat-panel-title>
                             <span *ngIf="failedGrain.response.isSystemResponse">
-                                <mat-icon>cloud</mat-icon>
+                                <mat-icon>mediation</mat-icon>
                             </span>
                             Grain: {{failedGrain.stage}}
                         </mat-panel-title>
                         <mat-panel-description>
                             The grain with the UId of {{failedGrain.subjectGrainUId}} permanently failed in the mill
-                            <mat-icon *ngIf="failedGrain.response.isSystemResponse">cloud</mat-icon>
+                            <mat-icon *ngIf="failedGrain.response.isSystemResponse">mediation</mat-icon>
                             <mat-icon *ngIf="!failedGrain.response.isSystemResponse">developer_mode</mat-icon>
-
                         </mat-panel-description>
                     </mat-expansion-panel-header>
                     <p>Grain UId: {{failedGrain.subjectGrainUId}}</p>
                     <p *ngIf="failedGrain.response?.message" mat-line>Message: {{failedGrain.response?.message}}</p>
                     <p>Result: {{failedGrain.resultToDisplay}}, code = {{failedGrain.response.resultCode}} </p>
                     <p>Response generated time: {{failedGrain.response.responseTimeUTC | date:'full':'GMT'}}</p>
+                    <p>System response: {{failedGrain.response.isSystemResponse}}</p>
+                    <mat-divider></mat-divider>
+                    <mat-card>
+                        <mat-card-header>
+                            <h3>Full response model
+                                <button mat-icon-button [cdkCopyToClipboard]="failedGrain.entirePayload">
+                                    <mat-icon>content_copy</mat-icon>
+                                </button>
+                            </h3>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <textarea matInput cols="180" rows="20" disabled
+                                [value]="failedGrain.entirePayload"></textarea>
+
+                        </mat-card-content>
+                    </mat-card>
                 </mat-expansion-panel>
                 <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
             </div>
@@ -144,7 +186,7 @@
                         </mat-panel-title>
                         <mat-panel-description>
                             The grain with the UId of {{completedGrain.subjectGrainUId}} completed in the mill
-                            <mat-icon *ngIf="completedGrain.response.isSystemResponse">cloud</mat-icon>
+                            <mat-icon *ngIf="completedGrain.response.isSystemResponse">mediation</mat-icon>
                             <mat-icon *ngIf="!completedGrain.response.isSystemResponse">developer_mode</mat-icon>
                         </mat-panel-description>
                     </mat-expansion-panel-header>
@@ -154,6 +196,20 @@
                     <p>Result: {{completedGrain.resultToDisplay}}, code = {{completedGrain.response.resultCode}} </p>
                     <p>Response generated time: {{completedGrain.response.responseTimeUTC | date:'full':'GMT'}}</p>
                     <p>System response: {{completedGrain.response.isSystemResponse}}</p>
+                    <mat-card>
+                        <mat-card-header>
+                            <h3>Full response model
+                                <button mat-icon-button [cdkCopyToClipboard]="completedGrain.entirePayload">
+                                    <mat-icon>content_copy</mat-icon>
+                                </button>
+                            </h3>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <textarea matInput cols="180" rows="20" disabled
+                                [value]="completedGrain.entirePayload"></textarea>
+
+                        </mat-card-content>
+                    </mat-card>
                 </mat-expansion-panel>
                 <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
             </div>
