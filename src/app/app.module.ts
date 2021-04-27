@@ -17,6 +17,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HttpClientModule } from '@angular/common/http';
@@ -44,6 +45,7 @@ import { SystemInfoViewComponent } from './system-info-view/system-info-view.com
     MatFormFieldModule,
     MatGridListModule,
     MatToolbarModule,
+    MatTooltipModule,
     MatListModule,
     MatIconModule,
     MatTabsModule,
