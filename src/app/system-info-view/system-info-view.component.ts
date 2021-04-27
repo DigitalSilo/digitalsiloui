@@ -7,17 +7,21 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./system-info-view.component.css']
 })
 export class SystemInfoViewComponent implements OnInit {
-  public isProduction: boolean;
   public hunName: string;
   public watchDogUrl: string;
   public systemIdentifier: string;
+  public environmentName: string;
 
-  constructor(
-  ) {
-    this.isProduction = environment.production;
+  constructor() {
     this.hunName = environment.signalR.hubName;
     this.watchDogUrl = environment.signalR.watchdogUrl;
     this.systemIdentifier = environment.signalR.clientKey;
+
+    if(environment.production) {
+      this.environmentName = 'Production';
+    } else {
+      this.environmentName = 'Non-production';
+    }
   }
 
   ngOnInit(): void {

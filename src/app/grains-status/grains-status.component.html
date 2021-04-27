@@ -52,8 +52,8 @@
                     <mat-divider></mat-divider>
                     <mat-card>
                         <mat-card-header>
-                            <h3>Full response model
-                                <button mat-icon-button [cdkCopyToClipboard]="begunGrain.entirePayload">
+                            <h3>The response payload
+                                <button mat-icon-button [cdkCopyToClipboard]="begunGrain.entirePayload" matTooltip="Click to copy the payload to the clipboard">
                                     <mat-icon>content_copy</mat-icon>
                                 </button>
                             </h3>
@@ -104,8 +104,8 @@
                     <mat-divider></mat-divider>
                     <mat-card>
                         <mat-card-header>
-                            <h3>Full response model
-                                <button mat-icon-button [cdkCopyToClipboard]="inProgressGrain.entirePayload">
+                            <h3>The response payload
+                                <button mat-icon-button [cdkCopyToClipboard]="inProgressGrain.entirePayload" matTooltip="Click to copy the payload to the clipboard">
                                     <mat-icon>content_copy</mat-icon>
                                 </button>
                             </h3>
@@ -152,8 +152,8 @@
                     <mat-divider></mat-divider>
                     <mat-card>
                         <mat-card-header>
-                            <h3>Full response model
-                                <button mat-icon-button [cdkCopyToClipboard]="failedGrain.entirePayload">
+                            <h3>The response payload
+                                <button mat-icon-button [cdkCopyToClipboard]="failedGrain.entirePayload" matTooltip="Click to copy the payload to the clipboard">
                                     <mat-icon>content_copy</mat-icon>
                                 </button>
                             </h3>
@@ -198,8 +198,8 @@
                     <p>System response: {{completedGrain.response.isSystemResponse}}</p>
                     <mat-card>
                         <mat-card-header>
-                            <h3>Full response model
-                                <button mat-icon-button [cdkCopyToClipboard]="completedGrain.entirePayload">
+                            <h3>The response payload
+                                <button mat-icon-button [cdkCopyToClipboard]="completedGrain.entirePayload" matTooltip="Click to copy the payload to the clipboard">
                                     <mat-icon>content_copy</mat-icon>
                                 </button>
                             </h3>
