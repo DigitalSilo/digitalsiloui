@@ -17,7 +17,7 @@ export class SystemInfoViewComponent implements OnInit {
     this.watchDogUrl = environment.signalR.watchdogUrl;
     this.systemIdentifier = environment.signalR.clientKey;
 
-    if(environment.production) {
+    if (environment.production) {
       this.environmentName = 'Production';
     } else {
       this.environmentName = 'Non-production';

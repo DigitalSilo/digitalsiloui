@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NgZone } from '@angular/core';
 import { HubConnection, HubConnectionBuilder, HubConnectionState, IHttpConnectionOptions, LogLevel } from '@microsoft/signalr';
-import { MessagePackHubProtocol } from '@microsoft/signalr-protocol-msgpack';
 import { Subject } from 'rxjs';
 import { GrainResponse } from 'src/app/models/grain-response';
 import { environment } from '../../../environments/environment';
@@ -48,7 +47,6 @@ export class SessionService {
             };
           this.hubConnection = new HubConnectionBuilder()
             .withUrl(`${data.url}`, options)
-            //.withHubProtocol(new MessagePackHubProtocol())
             .configureLogging(LogLevel.Information)
             .withAutomaticReconnect()
             .build();
