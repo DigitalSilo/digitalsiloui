@@ -28,7 +28,7 @@ export class GrainsStatusComponent implements OnInit {
   private verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   constructor(
-    private readonly sessionService : SessionService,
+    private readonly sessionService: SessionService,
     private snackBar: MatSnackBar,
     private listResetDialog: MatDialog,
     private systemInfo: MatBottomSheet
@@ -97,12 +97,12 @@ export class GrainsStatusComponent implements OnInit {
   }
 
   openProperSnackBar(): void{
-    if(this.failedGrains.length > 0 && this.inProgressGrains.length === 0) {
+    if (this.failedGrains.length > 0 && this.inProgressGrains.length === 0) {
       this.openSnackBar(`${this.failedGrains.length} grain(s) reported as failed in the mill.`, 'Close');
     }
 
-    if(this.completedGrains.length > 0 && this.inProgressGrains.length === 0) {
-      this.openSnackBar(`${this.completedGrains.length} grain(s) reported as completed in the mill.`, 'Close'); 
+    if (this.completedGrains.length > 0 && this.inProgressGrains.length === 0) {
+      this.openSnackBar(`${this.completedGrains.length} grain(s) reported as completed in the mill.`, 'Close');
     }
   }
 
