@@ -7,6 +7,7 @@ import { ResetScreenDialogComponent } from '../reset-screen-dialog/reset-screen-
 import { ListService } from '../services/list/list-service';
 import { SessionService } from '../services/session/session.service';
 import { SystemInfoViewComponent } from '../system-info-view/system-info-view.component';
+import { CookieService } from 'ngx-cookie';
 
 @Component({
   selector: 'app-grains-status',

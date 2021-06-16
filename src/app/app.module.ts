@@ -4,6 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { CookieModule } from 'ngx-cookie';
 import { FormsModule } from '@angular/forms';
 import { GrainsStatusComponent } from './grains-status/grains-status.component';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -36,6 +37,7 @@ import { EndPointDialogComponent } from './end-point-dialog/end-point-dialog.com
   imports: [
     BrowserModule,
     ClipboardModule,
+    CookieModule.forRoot(),
     HttpClientModule,
     FormsModule,
     AppRoutingModule,
