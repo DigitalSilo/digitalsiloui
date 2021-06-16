@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>Watchdog connection</h2>
+<mat-dialog-content class="mat-typography">
+    <h3>Watchdog endpoint</h3>
+    <p>
+        Please enter the watchdog's URL and its access key information
+    </p>
+    <mat-form-field>
+        <mat-label>URL</mat-label>
+        <input mat-input [(ngModel)]="data.url">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>KAccess ey</mat-label>
+        <input mat-input [(ngModel)="data.accessKey"]>
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mmat-button (click)="onCancelClick()">Cancel</button>
+    <button mat-button [mat-dialog-close]="data">Use</button>
+</mat-dialog-actions>
