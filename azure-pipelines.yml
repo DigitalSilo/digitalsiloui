@@ -3,14 +3,12 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
-pr:none
-
+pr: none
 trigger:
-  batch: true
-    tags:
-      include:
-        - refs/tags/*
-
+ batch: true
+ tags:
+   include:
+     - refs/tags/*
 pool:
   vmImage: ubuntu-latest
 
