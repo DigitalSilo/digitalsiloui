@@ -1,10 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-
-export interface WatchdogInfo {
-  url: string;
-  accessKey: string;
-}
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { WatchDogInfo } from '../models/watch-dog-info';
 
 @Component({
   selector: 'app-end-point-dialog',
@@ -15,7 +11,7 @@ export class EndPointDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<EndPointDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: WatchdogInfo
+    @Inject(MAT_DIALOG_DATA) public data: WatchDogInfo
   ) { }
 
   ngOnInit(): void {

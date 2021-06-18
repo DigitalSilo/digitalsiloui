@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule} from '@angular/material/expansion';
+import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -48,6 +49,7 @@ import { EndPointDialogComponent } from './end-point-dialog/end-point-dialog.com
     MatCardModule,
     MatDialogModule,
     MatExpansionModule,
+    MatInputModule,
     MatFormFieldModule,
     MatGridListModule,
     MatToolbarModule,
