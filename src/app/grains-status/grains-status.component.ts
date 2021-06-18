@@ -7,6 +7,9 @@ import { ResetScreenDialogComponent } from '../reset-screen-dialog/reset-screen-
 import { ListService } from '../services/list/list-service';
 import { SessionService } from '../services/session/session.service';
 import { SystemInfoViewComponent } from '../system-info-view/system-info-view.component';
+import { CookieService } from 'ngx-cookie';
+import { WatchDogInfo } from '../models/watch-dog-info'
+import { EndPointDialogComponent } from '../end-point-dialog/end-point-dialog.component';
 
 @Component({
   selector: 'app-grains-status',
@@ -26,11 +29,16 @@ export class GrainsStatusComponent implements OnInit {
   public completedGrainsBadge = '0';
   private horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   private verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  private watchdogUrlCookie = "grainfabricwatchdogurl";
+  private watchdogAccessKeyCookie = "grainfabricwatchdogaccesskey";
+  private watchdogClientKeyCookie = "grainfabricwatchdogclientkey";
 
   constructor(
     private readonly sessionService: SessionService,
+    private cookieService: CookieService,
     private snackBar: MatSnackBar,
     private listResetDialog: MatDialog,
+    private watchDogInfoDialog: MatDialog,
     private systemInfo: MatBottomSheet
   ) {
     this.inProgressGrains = new ListService<GrainResponse>();
@@ -40,7 +48,59 @@ export class GrainsStatusComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.sessionService.connect();
+    let watchDogInfo = this.getWatchDogInfo();
+    if(!watchDogInfo.isValid) {
+      this.openWatchDogInfoDialog(watchDogInfo);
+    } else {
+      this.listenToGrains(watchDogInfo);
+    }
+  }
+
+  getWatchDogInfo(): WatchDogInfo {    
+    let watchDogInfo: WatchDogInfo = new WatchDogInfo();
+    watchDogInfo.url = this.cookieService.get(this.watchdogUrlCookie);
+    watchDogInfo.accessKey = this.cookieService.get(this.watchdogAccessKeyCookie);
+    watchDogInfo.clientKey = this.cookieService.get(this.watchdogClientKeyCookie);
+    return watchDogInfo;
+  }
+
+  saveWatchDogInfo(watchDogInfo: WatchDogInfo): void {
+    this.cookieService.put(this.watchdogUrlCookie, watchDogInfo.url);
+    this.cookieService.put(this.watchdogAccessKeyCookie, watchDogInfo.accessKey);
+    this.cookieService.put(this.watchdogClientKeyCookie, watchDogInfo.clientKey);
+  }
+
+  onOpenWatchDog(): void{
+    this.openWatchDogInfoDialog(this.getWatchDogInfo());
+  }
+
+  openWatchDogInfoDialog(currentWatchDogInfo: WatchDogInfo):void {
+    const dialogRef = this.watchDogInfoDialog.open(EndPointDialogComponent, {
+      width:"600px",
+      data: {
+        url: currentWatchDogInfo.url, 
+        accessKey: currentWatchDogInfo.accessKey,
+        clientKey: currentWatchDogInfo.clientKey
+      }
+    }); 
+    dialogRef.afterClosed().subscribe(result => {
+      const watchDogInfo = new WatchDogInfo();
+      watchDogInfo.url= result.url;
+      watchDogInfo.accessKey = result.accessKey;
+      watchDogInfo.clientKey = result.clientKey;
+      
+      if(watchDogInfo.isValid) {
+        this.openSnackBar('If your watchdog info is right, you will see the flow of statuses on this screen soon.', 'Ok');
+        this.listenToGrains(watchDogInfo);
+        this.saveWatchDogInfo(watchDogInfo);
+      } else {
+        this.openSnackBar('The watchdog info does not appear to be valid.', 'Close');
+      }
+    });
+  }
+
+  listenToGrains(watchDogInfo: WatchDogInfo): void {
+    this.sessionService.connect(watchDogInfo);
     this.sessionService.onBegin.subscribe({
       next: response => {
         this.begunGrains.add(response);
@@ -54,7 +114,7 @@ export class GrainsStatusComponent implements OnInit {
         this.calculateTotalNumberOfGrains();
         this.activateProgressBarIfApplicable();
         this.populateBadges();
-        this.openProperSnackBar();
+        this.openProperGrainStatusSnackBar();
       }
     });
     this.sessionService.onCompleted.subscribe({
@@ -64,7 +124,7 @@ export class GrainsStatusComponent implements OnInit {
         this.calculateTotalNumberOfGrains();
         this.activateProgressBarIfApplicable();
         this.populateBadges();
-        this.openProperSnackBar();
+        this.openProperGrainStatusSnackBar();
       }
     });
     this.sessionService.onNext.subscribe({
@@ -74,7 +134,7 @@ export class GrainsStatusComponent implements OnInit {
         this.calculateTotalNumberOfGrains();
         this.activateProgressBarIfApplicable();
         this.populateBadges();
-        this.openProperSnackBar();
+        this.openProperGrainStatusSnackBar();
       }
     });
   }
@@ -96,7 +156,7 @@ export class GrainsStatusComponent implements OnInit {
     this.populateBadges();
   }
 
-  openProperSnackBar(): void{
+  openProperGrainStatusSnackBar(): void{
     if (this.failedGrains.length > 0 && this.inProgressGrains.length === 0) {
       this.openSnackBar(`${this.failedGrains.length} grain(s) reported as failed in the mill.`, 'Close');
     }
@@ -150,6 +210,6 @@ export class GrainsStatusComponent implements OnInit {
   }
 
   onOpenSystemInfo(): void{
-    this.systemInfo.open(SystemInfoViewComponent);
+    this.systemInfo.open(SystemInfoViewComponent, { data: this.getWatchDogInfo() });
   }
 }

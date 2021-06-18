@@ -4,6 +4,7 @@ import { NgZone } from '@angular/core';
 import { HubConnection, HubConnectionBuilder, HubConnectionState, IHttpConnectionOptions, LogLevel } from '@microsoft/signalr';
 import { Subject } from 'rxjs';
 import { GrainResponse } from 'src/app/models/grain-response';
+import { WatchDogInfo } from 'src/app/models/watch-dog-info';
 import { environment } from '../../../environments/environment';
 import { LoggerService } from '../logger/logger.service';
 
@@ -26,14 +27,14 @@ export class SessionService {
     this.hubName = 'negotiate2';
   }
 
-  public connect(): void {
+  public connect(watchDogInfo: WatchDogInfo): void {
     if (this.hubConnection === undefined) {
-      const negotitationUrl = `${environment.signalR.watchdogUrl}${environment.signalR.negotiateEndPoint}`;
+      const negotitationUrl = `${watchDogInfo.url}${environment.signalR.negotiateEndPoint}`;
       this.httpClient
         .request<any>('GET', negotitationUrl, {
           headers: {
-            'x-functions-key': environment.signalR.functionKey,
-            'x-ms-signalr-userid': environment.signalR.clientKey,
+            'x-functions-key': watchDogInfo.accessKey,
+            'x-ms-signalr-userid': watchDogInfo.clientKey,
           },
           responseType: 'json',
         })

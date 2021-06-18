@@ -4,6 +4,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { CookieModule } from 'ngx-cookie';
+import { FormsModule } from '@angular/forms';
 import { GrainsStatusComponent } from './grains-status/grains-status.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
@@ -11,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule} from '@angular/material/expansion';
+import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -23,17 +26,21 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HttpClientModule } from '@angular/common/http';
 import { ResetScreenDialogComponent } from './reset-screen-dialog/reset-screen-dialog.component';
 import { SystemInfoViewComponent } from './system-info-view/system-info-view.component';
+import { EndPointDialogComponent } from './end-point-dialog/end-point-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
     GrainsStatusComponent,
     ResetScreenDialogComponent,
-    SystemInfoViewComponent
+    SystemInfoViewComponent,
+    EndPointDialogComponent
   ],
   imports: [
     BrowserModule,
     ClipboardModule,
+    CookieModule.forRoot(),
     HttpClientModule,
+    FormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatBadgeModule,
@@ -42,6 +49,7 @@ import { SystemInfoViewComponent } from './system-info-view/system-info-view.com
     MatCardModule,
     MatDialogModule,
     MatExpansionModule,
+    MatInputModule,
     MatFormFieldModule,
     MatGridListModule,
     MatToolbarModule,
