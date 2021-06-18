@@ -70,9 +70,13 @@ export class GrainsStatusComponent implements OnInit {
     this.cookieService.put(this.watchdogClientKeyCookie, watchDogInfo.clientKey);
   }
 
+  onOpenWatchDog(): void{
+    this.openWatchDogInfoDialog(this.getWatchDogInfo());
+  }
+
   openWatchDogInfoDialog(currentWatchDogInfo: WatchDogInfo):void {
     const dialogRef = this.watchDogInfoDialog.open(EndPointDialogComponent, {
-      width:"400px",
+      width:"600px",
       data: {
         url: currentWatchDogInfo.url, 
         accessKey: currentWatchDogInfo.accessKey,
@@ -110,7 +114,7 @@ export class GrainsStatusComponent implements OnInit {
         this.calculateTotalNumberOfGrains();
         this.activateProgressBarIfApplicable();
         this.populateBadges();
-        this.openProperSnackBar();
+        this.openProperGrainStatusSnackBar();
       }
     });
     this.sessionService.onCompleted.subscribe({
@@ -120,7 +124,7 @@ export class GrainsStatusComponent implements OnInit {
         this.calculateTotalNumberOfGrains();
         this.activateProgressBarIfApplicable();
         this.populateBadges();
-        this.openProperSnackBar();
+        this.openProperGrainStatusSnackBar();
       }
     });
     this.sessionService.onNext.subscribe({
@@ -130,7 +134,7 @@ export class GrainsStatusComponent implements OnInit {
         this.calculateTotalNumberOfGrains();
         this.activateProgressBarIfApplicable();
         this.populateBadges();
-        this.openProperSnackBar();
+        this.openProperGrainStatusSnackBar();
       }
     });
   }
@@ -152,7 +156,7 @@ export class GrainsStatusComponent implements OnInit {
     this.populateBadges();
   }
 
-  openProperSnackBar(): void{
+  openProperGrainStatusSnackBar(): void{
     if (this.failedGrains.length > 0 && this.inProgressGrains.length === 0) {
       this.openSnackBar(`${this.failedGrains.length} grain(s) reported as failed in the mill.`, 'Close');
     }
@@ -206,6 +210,6 @@ export class GrainsStatusComponent implements OnInit {
   }
 
   onOpenSystemInfo(): void{
-    this.systemInfo.open(SystemInfoViewComponent);
+    this.systemInfo.open(SystemInfoViewComponent, { data: this.getWatchDogInfo() });
   }
 }

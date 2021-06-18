@@ -1,24 +1,24 @@
 <h2 mat-dialog-title>Watchdog connection</h2>
-<div fxLayout="row">
-<mat-dialog-content class="mat-typography">
+
+<mat-dialog-content>
     <h3>Watchdog endpoint</h3>
     <p>
         Please enter the watchdog's URL and its access key information
     </p>
-    <mat-form-field appearance="standard">
+    <mat-form-field [style.width.%]="100">
         <mat-label>URL</mat-label>
         <input matInput [(ngModel)]="data.url" placeholder="The watchdog's URL" required>
     </mat-form-field>
-    <mat-form-field appearance="standard">
+    <mat-form-field [style.width.%]="100">
         <mat-label>Access key</mat-label>
-        <input matInput  [(ngModel)]="data.accessKey" placeholder="The watchdog's access key" required>
+        <input matInput [(ngModel)]="data.accessKey" placeholder="The watchdog's access key" required>
     </mat-form-field>
-    <mat-form-field appearance="standard">
+    <mat-form-field [style.width.%]="100">
         <mat-label>Client key</mat-label>
-        <input matInput  [(ngModel)]="data.clientKey" placeholder="The application's client key" required>
+        <input matInput [(ngModel)]="data.clientKey" placeholder="The application's client key" required>
     </mat-form-field>
 </mat-dialog-content>
-</div>
+
 <mat-dialog-actions align="end">
     <button mat-button (click)="onCancelClick()">Cancel</button>
     <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Start watching</button>
