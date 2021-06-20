@@ -8,7 +8,7 @@ import { ListService } from '../services/list/list-service';
 import { SessionService } from '../services/session/session.service';
 import { SystemInfoViewComponent } from '../system-info-view/system-info-view.component';
 import { CookieService } from 'ngx-cookie';
-import { WatchDogInfo } from '../models/watch-dog-info'
+import { WatchDogInfo } from '../models/watch-dog-info';
 import { EndPointDialogComponent } from '../end-point-dialog/end-point-dialog.component';
 
 @Component({
@@ -29,9 +29,9 @@ export class GrainsStatusComponent implements OnInit {
   public completedGrainsBadge = '0';
   private horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   private verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-  private watchdogUrlCookie = "grainfabricwatchdogurl";
-  private watchdogAccessKeyCookie = "grainfabricwatchdogaccesskey";
-  private watchdogClientKeyCookie = "grainfabricwatchdogclientkey";
+  private watchdogUrlCookie = 'grainfabricwatchdogurl';
+  private watchdogAccessKeyCookie = 'grainfabricwatchdogaccesskey';
+  private watchdogClientKeyCookie = 'grainfabricwatchdogclientkey';
 
   constructor(
     private readonly sessionService: SessionService,
@@ -48,16 +48,16 @@ export class GrainsStatusComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    let watchDogInfo = this.getWatchDogInfo();
-    if(!watchDogInfo.isValid) {
+    const watchDogInfo = this.getWatchDogInfo();
+    if (!watchDogInfo.isValid) {
       this.openWatchDogInfoDialog(watchDogInfo);
     } else {
       this.listenToGrains(watchDogInfo);
     }
   }
 
-  getWatchDogInfo(): WatchDogInfo {    
-    let watchDogInfo: WatchDogInfo = new WatchDogInfo();
+  getWatchDogInfo(): WatchDogInfo {
+    const watchDogInfo: WatchDogInfo = new WatchDogInfo();
     watchDogInfo.url = this.cookieService.get(this.watchdogUrlCookie);
     watchDogInfo.accessKey = this.cookieService.get(this.watchdogAccessKeyCookie);
     watchDogInfo.clientKey = this.cookieService.get(this.watchdogClientKeyCookie);
@@ -74,22 +74,22 @@ export class GrainsStatusComponent implements OnInit {
     this.openWatchDogInfoDialog(this.getWatchDogInfo());
   }
 
-  openWatchDogInfoDialog(currentWatchDogInfo: WatchDogInfo):void {
+  openWatchDogInfoDialog(currentWatchDogInfo: WatchDogInfo): void {
     const dialogRef = this.watchDogInfoDialog.open(EndPointDialogComponent, {
-      width:"600px",
+      width: '600px',
       data: {
-        url: currentWatchDogInfo.url, 
+        url: currentWatchDogInfo.url,
         accessKey: currentWatchDogInfo.accessKey,
         clientKey: currentWatchDogInfo.clientKey
       }
-    }); 
+    });
     dialogRef.afterClosed().subscribe(result => {
       const watchDogInfo = new WatchDogInfo();
-      watchDogInfo.url= result.url;
+      watchDogInfo.url = result.url;
       watchDogInfo.accessKey = result.accessKey;
       watchDogInfo.clientKey = result.clientKey;
-      
-      if(watchDogInfo.isValid) {
+
+      if (watchDogInfo.isValid) {
         this.openSnackBar('If your watchdog info is right, you will see the flow of statuses on this screen soon.', 'Ok');
         this.listenToGrains(watchDogInfo);
         this.saveWatchDogInfo(watchDogInfo);
