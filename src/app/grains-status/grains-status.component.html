@@ -1,8 +1,8 @@
 <mat-card>
     <mat-card-header>
-        <mat-card-title>Grains' status in the mill</mat-card-title>
+        <mat-card-title>Grains' status in the silo</mat-card-title>
         <mat-card-subtitle>
-            An overview of grains' granular progress in the mill
+            An overview of grains' granular progress in the silo
         </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
@@ -15,7 +15,7 @@
 </mat-card>
 <mat-divider></mat-divider>
 <section class="grainstatus-stat">
-    <h3 class="grainstatus-h3">The total number of grains being processed in the mill: {{totalNumberOfGrains}}</h3>
+    <h3 class="grainstatus-h3">The total number of grains being processed in the silo: {{totalNumberOfGrains}}</h3>
 </section>
 <section class="grainstatus-section">
     <mat-progress-bar mode="indeterminate" *ngIf="startProgressBar"></mat-progress-bar>
@@ -91,7 +91,7 @@
                         </mat-panel-title>
                         <mat-panel-description>
                             The grain with the UId of {{inProgressGrain.subjectGrainUId}} is still being processed in
-                            the mill
+                            the silo
                             <mat-icon *ngIf="inProgressGrain.response.isSystemResponse">mediation</mat-icon>
                             <mat-icon *ngIf="!inProgressGrain.response.isSystemResponse">developer_mode</mat-icon>
                         </mat-panel-description>
@@ -140,7 +140,7 @@
                             Grain: {{failedGrain.stage}}
                         </mat-panel-title>
                         <mat-panel-description>
-                            The grain with the UId of {{failedGrain.subjectGrainUId}} permanently failed in the mill
+                            The grain with the UId of {{failedGrain.subjectGrainUId}} permanently failed in the silo
                             <mat-icon *ngIf="failedGrain.response.isSystemResponse">mediation</mat-icon>
                             <mat-icon *ngIf="!failedGrain.response.isSystemResponse">developer_mode</mat-icon>
                         </mat-panel-description>
@@ -186,7 +186,7 @@
                             Grain: {{completedGrain.stage}}
                         </mat-panel-title>
                         <mat-panel-description>
-                            The grain with the UId of {{completedGrain.subjectGrainUId}} completed in the mill
+                            The grain with the UId of {{completedGrain.subjectGrainUId}} completed in the silo
                             <mat-icon *ngIf="completedGrain.response.isSystemResponse">mediation</mat-icon>
                             <mat-icon *ngIf="!completedGrain.response.isSystemResponse">developer_mode</mat-icon>
                         </mat-panel-description>

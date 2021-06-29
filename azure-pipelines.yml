@@ -28,5 +28,5 @@ steps:
   inputs:
     app_location: "/"
     api_location: ""
-    output_location: "dist/grainfabricadminui"
+    output_location: "dist/digitalsiloui"
     azure_static_web_apps_api_token: $(deployment_token)

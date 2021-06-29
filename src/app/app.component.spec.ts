@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'grainfabricadminui'`, () => {
+  it(`should have as title 'digitalsiloui'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('grainfabricadminui');
+    expect(app.title).toEqual('digitalsiloui');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('grainfabricadminui app is running!');
+    expect(compiled.querySelector('.content span').textContent).toContain('digitalsiloui app is running!');
   });
 });
