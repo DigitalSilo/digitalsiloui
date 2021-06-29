@@ -29,9 +29,9 @@ export class GrainsStatusComponent implements OnInit {
   public completedGrainsBadge = '0';
   private horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   private verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-  private watchdogUrlCookie = 'grainfabricwatchdogurl';
-  private watchdogAccessKeyCookie = 'grainfabricwatchdogaccesskey';
-  private watchdogClientKeyCookie = 'grainfabricwatchdogclientkey';
+  private watchdogUrlCookie = 'digitalsilouiwatchdogurl';
+  private watchdogAccessKeyCookie = 'digitalsilouiwatchdogaccesskey';
+  private watchdogClientKeyCookie = 'digitalsilouiwatchdogclientkey';
 
   constructor(
     private readonly sessionService: SessionService,
@@ -158,11 +158,11 @@ export class GrainsStatusComponent implements OnInit {
 
   openProperGrainStatusSnackBar(): void{
     if (this.failedGrains.length > 0 && this.inProgressGrains.length === 0) {
-      this.openSnackBar(`${this.failedGrains.length} grain(s) reported as failed in the mill.`, 'Close');
+      this.openSnackBar(`${this.failedGrains.length} grain(s) reported as failed in the silo.`, 'Close');
     }
 
     if (this.completedGrains.length > 0 && this.inProgressGrains.length === 0) {
-      this.openSnackBar(`${this.completedGrains.length} grain(s) reported as completed in the mill.`, 'Close');
+      this.openSnackBar(`${this.completedGrains.length} grain(s) reported as completed in the silo.`, 'Close');
     }
   }
 
