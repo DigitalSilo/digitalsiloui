@@ -1,6 +1,31 @@
 # Digital Silo UI
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.4.
+If you are not familiar with Digital Silo, please take your time and read through [its document](https://github.com/DigitalSilo/digitalsilodocs) first.
+
+### The UI to display grains' progress
+
+We have prepared an open-source UI to display the progress of processing grains in Digital Silo. A demo version of [Digital Silo's UI is operational here](https://ambitious-mushroom-0cf93851e.azurestaticapps.net).
+
+The UI pops up a dialog box for the very first time to prompt the users to enter the following key entries:
+
+![Digital Silo UI settings](https://github.com/DigitalSilo/digitalsilodocs/blob/main/assets/UISettings.jpg)
+
+* URL: The URL of Watchdog according to the names provided to Terraform during provisioning
+* Access key: Watchdog's access key (Function Key), which will be available on Azure after provisioning
+* Client key: This key must be consistent with the client key of the application that submits grains' payloads to Gateway, or the grains' progress will not be captured and displayed in real-time.
+
+The UI's main page consists of the following tabs:
+
+![Digital Silo UI tabs](https://github.com/DigitalSilo/digitalsilodocs/blob/main/assets/UITabs.jpg)
+
+* Seeded grains tab to display the submitted grains payloads and ready to process
+* In-progress grains tab to display the grains payloads that are in progress
+* Failed grains tab to display the list of grains payloads that failed
+* Completed grains tab to display the list of successfully processed grains payloads
+
+## Technology
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.5.
 
 ## Development server
 
