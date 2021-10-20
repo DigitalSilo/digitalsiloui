@@ -1,3 +1,5 @@
+![Digital Silo's logo](https://digitalsilo.io/assets/images/logos/logo.png)
+
 # Digital Silo UI
 
 If you are not familiar with Digital Silo, please take your time and read through [its document](https://github.com/DigitalSilo/digitalsilodocs) first.
@@ -46,3 +48,7 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 ## Running end-to-end tests
 
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+# The product's website
+
+Please visit [the product's website](https://digitalsilo.io) for further information.
