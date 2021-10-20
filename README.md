@@ -1,6 +1,6 @@
-![Digital Silo's logo](https://digitalsilo.io/assets/images/logos/logo.png)
+# Digital Silo's UI
 
-# Digital Silo's UI to view grains' progress
+![Digital Silo's logo](https://digitalsilo.io/assets/images/logos/logo.png)
 
 If you are not familiar with Digital Silo, please take your time and read through [its document](https://github.com/DigitalSilo/digitalsilodocs) first.
 
